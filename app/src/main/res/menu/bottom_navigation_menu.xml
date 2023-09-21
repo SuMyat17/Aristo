@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/action_home"
+        android:icon="@drawable/ic_home"
+        android:title="@string/lbl_home"/>
+
+    <item android:id="@+id/action_notification"
+        android:icon="@drawable/ic_notification"
+        android:title="@string/lbl_notification"/>
+
+    <item android:id="@+id/action_cart"
+        android:icon="@drawable/ic_cart"
+        android:title="@string/lbl_cart"/>
+
+    <item android:id="@+id/action_information"
+        android:icon="@drawable/ic_information"
+        android:title="@string/lbl_information"/>
+
+</menu>
