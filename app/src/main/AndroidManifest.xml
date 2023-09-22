@@ -22,7 +22,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity
+            android:name=".view.ProductDetailActivity"
+            android:exported="false" />
         <activity
             android:name=".view.SubCategoriesActivity"
             android:exported="false" />
