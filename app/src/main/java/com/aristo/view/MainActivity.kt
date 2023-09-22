@@ -8,6 +8,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.aristo.R
 import com.aristo.databinding.ActivityMainBinding
+import com.aristo.view.adapters.NewItemsAdapter
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,4 +25,5 @@ class MainActivity : AppCompatActivity() {
 
         NavigationUI.setupWithNavController(binding.bottomNav, navController)
     }
+
 }
