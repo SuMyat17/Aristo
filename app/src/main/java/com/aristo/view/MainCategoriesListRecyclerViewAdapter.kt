@@ -38,7 +38,7 @@ class MainCategoriesListRecyclerViewAdapter(val context : Context, val mainCateg
         if (position == selectedPosition) {
             holder.itemView.setBackgroundResource(R.color.selectedCategories)
         } else {
-            holder.itemView.setBackgroundResource(R.color.white)
+            holder.itemView.setBackgroundResource(R.color.background)
         }
 
         holder.itemView.setOnClickListener {

@@ -10,4 +10,5 @@
 
     <color name="grey">#8C8C8C</color>
     <color name="selectedCategories">#E2E2ED</color>
+    <color name="background">#F4F4F4</color>
 </resources>
