@@ -12,7 +12,7 @@ import com.aristo.model.Category
 
 class MainCategoriesListRecyclerViewAdapter(val context : Context, val mainCategoryList : ArrayList<Category>) : RecyclerView.Adapter<MainCategoriesListRecyclerViewAdapter.MainCategoriesListRecyclerViewHolder>() {
 
-    private var selectedPosition = RecyclerView.NO_POSITION
+    private var selectedPosition = 0
     class MainCategoriesListRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val mainCatTitle = itemView.findViewById<TextView>(R.id.tvCatTitle)
     }

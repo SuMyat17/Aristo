@@ -40,11 +40,9 @@ class ProductListRecyclerViewAdapter(val context: Context, val productList : Arr
 
             Toast.makeText(context,"Product List ${productList[position].name}", Toast.LENGTH_LONG).show()
 
-            //val intent = Intent(context, ChildCategoriesActivity:: class.java)
+            val intent = Intent(context, ProductDetailActivity:: class.java)
 
-            //intent.putExtra("productId", childCategoryList[position].childCategories)
-
-            //context.startActivity(intent)
+            context.startActivity(intent)
         }
 
     }

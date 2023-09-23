@@ -2,20 +2,32 @@ package com.aristo.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aristo.R
+import com.aristo.databinding.ActivityChildCategoriesBinding
 import com.aristo.databinding.ActivityMainCategoriesBinding
 import com.aristo.model.ChildCategories
-import com.aristo.model.Product
 
 class ChildCategoriesActivity : AppCompatActivity() {
 
+    private lateinit var binding : ActivityChildCategoriesBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sub_categories)
 
+        binding = ActivityChildCategoriesBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        setRecyclerViewAdapter()
+
+        binding.ibBack.setOnClickListener {
+            finish()
+        }
+
+    }
+
+    fun setRecyclerViewAdapter(){
         // Inside your DestinationActivity's onCreate() or wherever you need to access the ArrayList
         val childCategoriesList: ArrayList<ChildCategories>? = intent.getSerializableExtra("childCategoriesList") as? ArrayList<ChildCategories>
 
@@ -25,6 +37,5 @@ class ChildCategoriesActivity : AppCompatActivity() {
         subCatRV.layoutManager = subCatLayoutManager
         subCatRV.adapter =
             childCategoriesList?.let { ChildCategoriesListRecyclerViewAdapter(this, it) }
-
     }
 }

@@ -19,6 +19,14 @@ class ProductListActivity : AppCompatActivity() {
         binding = ActivityProductListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setRecyclerViewAdapter()
+
+        binding.ibBack.setOnClickListener {
+            finish()
+        }
+    }
+
+    fun setRecyclerViewAdapter(){
         val productList: ArrayList<Product>? = intent.getSerializableExtra("productList") as? ArrayList<Product>
 
         // Product List Recycler View
@@ -26,5 +34,6 @@ class ProductListActivity : AppCompatActivity() {
         binding.rvProductList.layoutManager = productListLayoutManager
         binding.rvProductList.adapter =
             productList?.let { ProductListRecyclerViewAdapter(this, it) }
+
     }
 }

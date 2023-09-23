@@ -35,7 +35,7 @@
                 android:text="TA Textile"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:textColor="@color/purple_500"
+                android:textColor="@color/color_accent"
                 android:gravity="center"/>
 
             <LinearLayout
@@ -159,7 +159,7 @@
                 android:text="Contact to Developer"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:textColor="@color/purple_500"
+                android:textColor="@color/color_accent"
                 android:gravity="left"/>
 
         </LinearLayout>

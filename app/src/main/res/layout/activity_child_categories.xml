@@ -22,11 +22,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/ib_back"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@color/background"
-            android:src="@android:drawable/btn_star" />
+            android:src="@drawable/baseline_arrow_back_accent_24" />
 
         <TextView
             android:id="@+id/textView"
@@ -49,14 +49,14 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@color/background"
-            android:src="@android:drawable/btn_dialog" />
+            android:src="@drawable/ic_search" />
 
         <ImageButton
             android:id="@+id/ib_cart"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@color/background"
-            android:src="@android:drawable/ic_btn_speak_now" />
+            android:src="@drawable/ic_cart" />
     </LinearLayout>
 
     <View

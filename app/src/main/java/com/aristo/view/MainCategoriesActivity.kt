@@ -30,6 +30,15 @@ class MainCategoriesActivity : AppCompatActivity(), MainCategoriesRecyclerViewLi
         categoriesViewModel = ViewModelProvider(this)[CategoriesViewModel::class.java]
         categoriesViewModel.loadCategories()
 
+        setRecyclerViewAdapter()
+
+        binding.ibBack.setOnClickListener {
+            finish()
+        }
+
+    }
+
+    fun setRecyclerViewAdapter(){
         // Main Categories Recycler View
         val mainCatLayoutManager = LinearLayoutManager(this)
         binding.rvMainCategories.layoutManager = mainCatLayoutManager
@@ -39,13 +48,6 @@ class MainCategoriesActivity : AppCompatActivity(), MainCategoriesRecyclerViewLi
         val subCatLayoutManager = GridLayoutManager(this,2)
         binding.rvSubCategories.layoutManager = subCatLayoutManager
         binding.rvSubCategories.adapter = SubCategoriesListRecyclerViewAdapter(this,categoriesViewModel.categoryList[0].subCategories)
-
-        val cartBtn = findViewById<ImageButton>(R.id.ib_cart)
-        cartBtn.setOnClickListener {
-            val intent = Intent(this, MainCategoriesActivity:: class.java)
-            startActivity(intent)
-        }
-
     }
 
     // Reload Sub Categories Recycler View when select main categories recycler view

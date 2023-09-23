@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Aristo</string>
+    <string name="lbl_home">Home</string>
+    <string name="lbl_information">Information</string>
+    <string name="lbl_cart">Cart</string>
+    <string name="lbl_notification">Notification</string>
 </resources>
