@@ -4,14 +4,17 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.aristo.R
 import com.aristo.model.Category
 
 class MainCategoriesListRecyclerViewAdapter(val context : Context, val mainCategoryList : ArrayList<Category>) : RecyclerView.Adapter<MainCategoriesListRecyclerViewAdapter.MainCategoriesListRecyclerViewHolder>() {
 
+    private var selectedPosition = RecyclerView.NO_POSITION
     class MainCategoriesListRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-
+        val mainCatTitle = itemView.findViewById<TextView>(R.id.tvCatTitle)
     }
 
     override fun onCreateViewHolder(
@@ -30,6 +33,23 @@ class MainCategoriesListRecyclerViewAdapter(val context : Context, val mainCateg
     }
 
     override fun onBindViewHolder(holder: MainCategoriesListRecyclerViewHolder, position: Int) {
+        holder.mainCatTitle.setText(mainCategoryList[position].title)
 
+        if (position == selectedPosition) {
+            holder.itemView.setBackgroundResource(R.color.selectedCategories)
+        } else {
+            holder.itemView.setBackgroundResource(R.color.white)
+        }
+
+        holder.itemView.setOnClickListener {
+            val previousSelectedPosition = selectedPosition
+            selectedPosition = holder.adapterPosition
+
+            notifyItemChanged(previousSelectedPosition)
+
+            notifyItemChanged(selectedPosition)
+
+            (context as? MainCategoriesRecyclerViewListener)?.reloadSubCategoriesRecyclerView(holder.adapterPosition)
+        }
     }
 }

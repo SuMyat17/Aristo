@@ -3,40 +3,42 @@ package com.aristo.view
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aristo.R
+import com.aristo.databinding.ActivityMainCategoriesBinding
 import com.aristo.viewModel.CategoriesViewModel
 
-class MainCategoriesActivity : AppCompatActivity() {
+class MainCategoriesActivity : AppCompatActivity(), MainCategoriesRecyclerViewListener {
 
-    private lateinit var mainCatRV : RecyclerView
-    private lateinit var subCatRV : RecyclerView
+    private lateinit var binding : ActivityMainCategoriesBinding
+
     private lateinit var categoriesViewModel: CategoriesViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main_categories)
+
+        binding = ActivityMainCategoriesBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // Initialize ViewModel
         categoriesViewModel = ViewModelProvider(this)[CategoriesViewModel::class.java]
-
-        // Call the loadCategories function to load data
+        categoriesViewModel.loadCategories()
 
         // Main Categories Recycler View
-        mainCatRV = findViewById(R.id.rv_main_categories)
         val mainCatLayoutManager = LinearLayoutManager(this)
-        mainCatRV.layoutManager = mainCatLayoutManager
-        mainCatRV.adapter = MainCategoriesListRecyclerViewAdapter(this,categoriesViewModel.loadCategories())
+        binding.rvMainCategories.layoutManager = mainCatLayoutManager
+        binding.rvMainCategories.adapter = MainCategoriesListRecyclerViewAdapter(this,categoriesViewModel.categoryList)
 
         // Sub Categories Recycler View
-        subCatRV = findViewById(R.id.rv_sub_categories)
         val subCatLayoutManager = GridLayoutManager(this,2)
-        subCatRV.layoutManager = subCatLayoutManager
-        subCatRV.adapter = SubCategoriesListRecyclerViewAdapter(this)
+        binding.rvSubCategories.layoutManager = subCatLayoutManager
+        binding.rvSubCategories.adapter = SubCategoriesListRecyclerViewAdapter(this,categoriesViewModel.categoryList[0].subCategories)
 
         val cartBtn = findViewById<ImageButton>(R.id.ib_cart)
         cartBtn.setOnClickListener {
@@ -44,5 +46,11 @@ class MainCategoriesActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+    }
+
+    // Reload Sub Categories Recycler View when select main categories recycler view
+    override fun reloadSubCategoriesRecyclerView(index : Int) {
+
+        binding.rvSubCategories.adapter = SubCategoriesListRecyclerViewAdapter(this,categoriesViewModel.categoryList[index].subCategories)
     }
 }

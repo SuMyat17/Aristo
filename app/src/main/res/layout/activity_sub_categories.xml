@@ -23,6 +23,7 @@
             android:id="@+id/imageButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:background="#FFFFFF"
             android:src="@android:drawable/btn_star" />
 
         <TextView
@@ -45,12 +46,14 @@
             android:id="@+id/ib_search"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:background="#FFFFFF"
             android:src="@android:drawable/btn_dialog" />
 
         <ImageButton
             android:id="@+id/ib_cart"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:background="#FFFFFF"
             android:src="@android:drawable/ic_btn_speak_now" />
     </LinearLayout>
 

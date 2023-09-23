@@ -6,10 +6,12 @@ import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aristo.R
+import com.aristo.databinding.ActivityMainCategoriesBinding
 import com.aristo.model.ChildCategories
 import com.aristo.model.Product
 
 class ChildCategoriesActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sub_categories)
