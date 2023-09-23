@@ -3,12 +3,13 @@ package com.aristo.view
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.aristo.R
 import com.aristo.databinding.ActivityMainBinding
-import com.aristo.view.adapters.NewItemsAdapter
+import com.microsoft.appcenter.AppCenter
+import com.microsoft.appcenter.analytics.Analytics
+import com.microsoft.appcenter.crashes.Crashes
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,6 +25,11 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
 
         NavigationUI.setupWithNavController(binding.bottomNav, navController)
+
+        AppCenter.start(
+            application, "9e748b4f-85ad-454e-a939-60a8889e7808\"",
+            Analytics::class.java, Crashes::class.java
+        )
     }
 
 }
