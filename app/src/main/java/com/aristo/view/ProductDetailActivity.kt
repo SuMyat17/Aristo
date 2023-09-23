@@ -12,5 +12,13 @@ class ProductDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityProductDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        setUpListeners()
+    }
+
+    private fun setUpListeners() {
+        binding.ibBack.setOnClickListener {
+            super.onBackPressed()
+        }
     }
 }
