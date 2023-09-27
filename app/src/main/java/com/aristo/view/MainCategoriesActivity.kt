@@ -47,12 +47,12 @@ class MainCategoriesActivity : AppCompatActivity(), MainCategoriesRecyclerViewLi
         // Sub Categories Recycler View
         val subCatLayoutManager = GridLayoutManager(this,2)
         binding.rvSubCategories.layoutManager = subCatLayoutManager
-        binding.rvSubCategories.adapter = SubCategoriesListRecyclerViewAdapter(this,categoriesViewModel.categoryList[0].subCategories)
+        binding.rvSubCategories.adapter = SubCategoriesListRecyclerViewAdapter(this,categoriesViewModel.categoryList[0].childCategories)
     }
 
     // Reload Sub Categories Recycler View when select main categories recycler view
     override fun reloadSubCategoriesRecyclerView(index : Int) {
 
-        binding.rvSubCategories.adapter = SubCategoriesListRecyclerViewAdapter(this,categoriesViewModel.categoryList[index].subCategories)
+        binding.rvSubCategories.adapter = SubCategoriesListRecyclerViewAdapter(this,categoriesViewModel.categoryList[index].childCategories)
     }
 }

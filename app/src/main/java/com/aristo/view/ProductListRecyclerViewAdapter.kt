@@ -9,7 +9,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.aristo.R
-import com.aristo.model.ChildCategories
 import com.aristo.model.Product
 
 class ProductListRecyclerViewAdapter(val context: Context, val productList : ArrayList<Product>) : RecyclerView.Adapter<ProductListRecyclerViewAdapter.ProductListRecyclerViewHolder>() {
@@ -34,11 +33,11 @@ class ProductListRecyclerViewAdapter(val context: Context, val productList : Arr
 
     override fun onBindViewHolder(holder: ProductListRecyclerViewHolder, position: Int) {
 
-        holder.productTitle.setText(productList[position].name)
+        holder.productTitle.setText(productList[position].productName)
 
         holder.itemView.setOnClickListener {
 
-            Toast.makeText(context,"Product List ${productList[position].name}", Toast.LENGTH_LONG).show()
+            Toast.makeText(context,"Product List ${productList[position].productName}", Toast.LENGTH_LONG).show()
 
             val intent = Intent(context, ProductDetailActivity:: class.java)
 

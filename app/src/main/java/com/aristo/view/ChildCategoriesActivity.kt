@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aristo.R
 import com.aristo.databinding.ActivityChildCategoriesBinding
 import com.aristo.databinding.ActivityMainCategoriesBinding
-import com.aristo.model.ChildCategories
+import com.aristo.model.Category
 
 class ChildCategoriesActivity : AppCompatActivity() {
 
@@ -29,7 +29,7 @@ class ChildCategoriesActivity : AppCompatActivity() {
 
     fun setRecyclerViewAdapter(){
         // Inside your DestinationActivity's onCreate() or wherever you need to access the ArrayList
-        val childCategoriesList: ArrayList<ChildCategories>? = intent.getSerializableExtra("childCategoriesList") as? ArrayList<ChildCategories>
+        val childCategoriesList: ArrayList<Category>? = intent.getSerializableExtra("childCategoriesList") as? ArrayList<Category>
 
         // Sub Categories Recycler View
         val subCatRV = findViewById<RecyclerView>(R.id.rv_sub_categories)
