@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aristo.R
 import com.aristo.databinding.ActivityMainCategoriesBinding
 import com.aristo.databinding.ActivityProductListBinding
-import com.aristo.model.ChildCategories
 import com.aristo.model.Product
 
 class ProductListActivity : AppCompatActivity() {

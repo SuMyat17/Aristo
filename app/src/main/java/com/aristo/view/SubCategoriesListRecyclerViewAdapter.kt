@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.aristo.R
-import com.aristo.model.SubCategories
+import com.aristo.model.Category
 
-class SubCategoriesListRecyclerViewAdapter(val context: Context, val subCategoryList : ArrayList<SubCategories>) : RecyclerView.Adapter<SubCategoriesListRecyclerViewAdapter.SubCategoriesListRecyclerViewHolder>() {
+class SubCategoriesListRecyclerViewAdapter(val context: Context, val subCategoryList : ArrayList<Category>) : RecyclerView.Adapter<SubCategoriesListRecyclerViewAdapter.SubCategoriesListRecyclerViewHolder>() {
 
     class SubCategoriesListRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val subCatTitle = itemView.findViewById<TextView>(R.id.tvCatTitle)

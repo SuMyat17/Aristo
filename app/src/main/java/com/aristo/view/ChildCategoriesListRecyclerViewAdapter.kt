@@ -9,9 +9,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.aristo.R
-import com.aristo.model.ChildCategories
+import com.aristo.model.Category
 
-class ChildCategoriesListRecyclerViewAdapter(val context: Context, val childCategoryList : ArrayList<ChildCategories>) : RecyclerView.Adapter<ChildCategoriesListRecyclerViewAdapter.ChildCategoriesListRecyclerViewHolder>() {
+class ChildCategoriesListRecyclerViewAdapter(val context: Context, val childCategoryList : ArrayList<Category>) : RecyclerView.Adapter<ChildCategoriesListRecyclerViewAdapter.ChildCategoriesListRecyclerViewHolder>() {
 
     class ChildCategoriesListRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val subCatTitle = itemView.findViewById<TextView>(R.id.tvCatTitle)
