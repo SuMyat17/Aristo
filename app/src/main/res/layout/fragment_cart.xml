@@ -80,7 +80,7 @@
             android:layout_marginBottom="@dimen/margin_medium_2"/>
 
         <Button
-            android:id="@+id/btnAddToCart"
+            android:id="@+id/btnOrder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium_3"

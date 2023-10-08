@@ -5,9 +5,9 @@ import android.os.Bundle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aristo.R
+import com.aristo.admin.model.Category
 import com.aristo.databinding.ActivityChildCategoriesBinding
 import com.aristo.databinding.ActivityMainCategoriesBinding
-import com.aristo.model.Category
 
 class ChildCategoriesActivity : AppCompatActivity() {
 

@@ -28,7 +28,7 @@ class MainCategoriesActivity : AppCompatActivity(), MainCategoriesRecyclerViewLi
 
         // Initialize ViewModel
         categoriesViewModel = ViewModelProvider(this)[CategoriesViewModel::class.java]
-        categoriesViewModel.loadCategories()
+        //categoriesViewModel.loadCategories()
 
         setRecyclerViewAdapter()
 
@@ -42,17 +42,19 @@ class MainCategoriesActivity : AppCompatActivity(), MainCategoriesRecyclerViewLi
         // Main Categories Recycler View
         val mainCatLayoutManager = LinearLayoutManager(this)
         binding.rvMainCategories.layoutManager = mainCatLayoutManager
-        binding.rvMainCategories.adapter = MainCategoriesListRecyclerViewAdapter(this,categoriesViewModel.categoryList)
+        //binding.rvMainCategories.adapter = MainCategoriesListRecyclerViewAdapter(this,categoriesViewModel.categoryList)
+        binding.rvMainCategories.adapter = MainCategoriesListRecyclerViewAdapter(this)
 
         // Sub Categories Recycler View
         val subCatLayoutManager = GridLayoutManager(this,2)
         binding.rvSubCategories.layoutManager = subCatLayoutManager
-        binding.rvSubCategories.adapter = SubCategoriesListRecyclerViewAdapter(this,categoriesViewModel.categoryList[0].childCategories)
+        //binding.rvSubCategories.adapter = SubCategoriesListRecyclerViewAdapter(this,categoriesViewModel.categoryList[0].childCategories)
+        binding.rvSubCategories.adapter = SubCategoriesListRecyclerViewAdapter(this)
     }
 
     // Reload Sub Categories Recycler View when select main categories recycler view
     override fun reloadSubCategoriesRecyclerView(index : Int) {
-
-        binding.rvSubCategories.adapter = SubCategoriesListRecyclerViewAdapter(this,categoriesViewModel.categoryList[index].childCategories)
+        binding.rvSubCategories.adapter = SubCategoriesListRecyclerViewAdapter(this)
+        //binding.rvSubCategories.adapter = SubCategoriesListRecyclerViewAdapter(this,categoriesViewModel.categoryList[index].childCategories)
     }
 }

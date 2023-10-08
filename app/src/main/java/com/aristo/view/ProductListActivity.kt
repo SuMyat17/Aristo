@@ -5,9 +5,9 @@ import android.os.Bundle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aristo.R
+import com.aristo.admin.model.Category
 import com.aristo.databinding.ActivityMainCategoriesBinding
 import com.aristo.databinding.ActivityProductListBinding
-import com.aristo.model.Product
 
 class ProductListActivity : AppCompatActivity() {
 
@@ -26,7 +26,7 @@ class ProductListActivity : AppCompatActivity() {
     }
 
     fun setRecyclerViewAdapter(){
-        val productList: ArrayList<Product>? = intent.getSerializableExtra("productList") as? ArrayList<Product>
+        val productList: ArrayList<Category>? = intent.getSerializableExtra("productList") as? ArrayList<Category>
 
         // Product List Recycler View
         val productListLayoutManager = GridLayoutManager(this,2)

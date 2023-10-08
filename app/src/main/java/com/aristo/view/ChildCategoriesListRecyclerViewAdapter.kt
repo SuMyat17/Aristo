@@ -9,7 +9,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.aristo.R
-import com.aristo.model.Category
+import com.aristo.admin.model.Category
 
 class ChildCategoriesListRecyclerViewAdapter(val context: Context, val childCategoryList : ArrayList<Category>) : RecyclerView.Adapter<ChildCategoriesListRecyclerViewAdapter.ChildCategoriesListRecyclerViewHolder>() {
 
@@ -40,17 +40,17 @@ class ChildCategoriesListRecyclerViewAdapter(val context: Context, val childCate
             //Toast.makeText(context,"Child Categories List ${childCategoryList[position].childCategories}", Toast.LENGTH_LONG).show()
 
 
-            Toast.makeText(context,"Is Empty ${childCategoryList[position].childCategories.isEmpty()}", Toast.LENGTH_LONG).show()
+            Toast.makeText(context,"Is Empty ${childCategoryList[position].subCategories.isEmpty()}", Toast.LENGTH_LONG).show()
 
 
-            if (childCategoryList[position].childCategories.isEmpty()){
+            if (childCategoryList[position].subCategories.isEmpty()){
                 val intent = Intent(context, ProductListActivity:: class.java)
-                intent.putExtra("productList", childCategoryList[position].productList)
+                //intent.putExtra("productList", childCategoryList[position].subCategories)
                 context.startActivity(intent)
             }
             else{
                 val intent = Intent(context, ChildCategoriesActivity:: class.java)
-                intent.putExtra("childCategoriesList", childCategoryList[position].childCategories)
+                //intent.putExtra("childCategoriesList", childCategoryList[position].subCategories)
                 context.startActivity(intent)
             }
 

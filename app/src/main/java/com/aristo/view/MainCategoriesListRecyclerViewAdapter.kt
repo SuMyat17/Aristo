@@ -8,9 +8,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.aristo.R
-import com.aristo.model.Category
+import com.aristo.admin.model.Category
 
-class MainCategoriesListRecyclerViewAdapter(val context : Context, val mainCategoryList : ArrayList<Category>) : RecyclerView.Adapter<MainCategoriesListRecyclerViewAdapter.MainCategoriesListRecyclerViewHolder>() {
+class MainCategoriesListRecyclerViewAdapter(val context : Context) : RecyclerView.Adapter<MainCategoriesListRecyclerViewAdapter.MainCategoriesListRecyclerViewHolder>() {
 
     private var selectedPosition = 0
     class MainCategoriesListRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
@@ -29,11 +29,11 @@ class MainCategoriesListRecyclerViewAdapter(val context : Context, val mainCateg
     }
 
     override fun getItemCount(): Int {
-        return mainCategoryList.size
+        return 6
     }
 
     override fun onBindViewHolder(holder: MainCategoriesListRecyclerViewHolder, position: Int) {
-        holder.mainCatTitle.setText(mainCategoryList[position].title)
+        //holder.mainCatTitle.setText(mainCategoryList[position].title)
 
         if (position == selectedPosition) {
             holder.itemView.setBackgroundResource(R.color.selectedCategories)

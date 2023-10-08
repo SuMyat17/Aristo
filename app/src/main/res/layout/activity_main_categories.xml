@@ -75,7 +75,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_main_categories"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             tools:listitem="@layout/main_cat_items" />
