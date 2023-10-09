@@ -4,6 +4,6 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/grey"
-    tools:context=".view.NotificationFragment">
+    tools:context=".view.Fragments.NotificationFragment">
 
 </androidx.constraintlayout.widget.ConstraintLayout>
