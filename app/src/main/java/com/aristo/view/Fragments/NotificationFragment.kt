@@ -1,4 +1,4 @@
-package com.aristo.view
+package com.aristo.view.Fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater

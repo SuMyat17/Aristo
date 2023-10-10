@@ -1,4 +1,4 @@
-package com.aristo.view
+package com.aristo.view.Fragments
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -39,12 +39,14 @@ class CartFragment : Fragment() {
     private fun setUpAdapters() {
         mCartAdapter = CartAdapter()
         binding.rvCart.adapter = mCartAdapter
-        binding.rvCart.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.rvCart.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
     }
 
     fun showOrderConfirmAlert() {
         val builder = AlertDialog.Builder(requireContext())
-        val customView = LayoutInflater.from(requireContext()).inflate(R.layout.order_confirm_alert,null)
+        val customView = LayoutInflater.from(requireContext())
+            .inflate(R.layout.order_confirm_alert,null)
         builder.setView(customView)
         builder.setCancelable(false)
 
@@ -57,7 +59,7 @@ class CartFragment : Fragment() {
         }
 
         btnConfirm.setOnClickListener {
-            Toast.makeText(requireContext(),"Click Confirm", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), "Click Confirm", Toast.LENGTH_LONG).show()
 
             dialog.cancel()
         }
