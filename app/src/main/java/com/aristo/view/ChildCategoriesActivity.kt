@@ -3,15 +3,14 @@ package com.aristo.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.aristo.R
 import com.aristo.admin.model.Category
+import com.aristo.view.adapters.ChildCategoryListAdapter
 import com.aristo.databinding.ActivityChildCategoriesBinding
-import com.aristo.databinding.ActivityMainCategoriesBinding
 
 class ChildCategoriesActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityChildCategoriesBinding
+    private lateinit var mSubCategoryAdapter: ChildCategoryListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,15 +26,17 @@ class ChildCategoriesActivity : AppCompatActivity() {
 
     }
 
-    fun setRecyclerViewAdapter(){
+    private fun setRecyclerViewAdapter(){
         // Inside your DestinationActivity's onCreate() or wherever you need to access the ArrayList
-        val childCategoriesList: ArrayList<Category>? = intent.getSerializableExtra("childCategoriesList") as? ArrayList<Category>
+        val subCategory = intent.getSerializableExtra("childCategoriesList") as Category?
+        binding.tvTitle.text = subCategory?.title
 
         // Sub Categories Recycler View
-        val subCatRV = findViewById<RecyclerView>(R.id.rv_sub_categories)
-        val subCatLayoutManager = GridLayoutManager(this,2)
-        subCatRV.layoutManager = subCatLayoutManager
-        subCatRV.adapter =
-            childCategoriesList?.let { ChildCategoriesListRecyclerViewAdapter(this, it) }
+        mSubCategoryAdapter = ChildCategoryListAdapter(this)
+        binding.rvSubCategories.layoutManager = GridLayoutManager(this,2)
+        binding.rvSubCategories.adapter = mSubCategoryAdapter
+        if (subCategory != null) {
+            mSubCategoryAdapter.setNewData(subCategory.subCategories.values.toList())
+        }
     }
 }

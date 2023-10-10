@@ -8,6 +8,14 @@
     android:orientation="vertical"
     tools:context=".view.HomeFragment">
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:visibility="gone"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,13 +28,14 @@
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPagerNewItems"
             android:layout_width="match_parent"
-            android:layout_height="200dp" />
+            android:layout_height="230dp" />
 
         <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
             android:id="@+id/dotsIndicatorNewItems"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center|bottom"
+            android:layout_marginTop="-6dp"
             app:dotsColor="@color/color_dotted"
             app:dotsCornerRadius="@dimen/margin_small"
             app:dotsSize="@dimen/margin_medium"
@@ -67,8 +76,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="@dimen/margin_medium"
-        android:layout_marginTop="@dimen/margin_medium"
-        android:layout_marginEnd="@dimen/margin_medium" />
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginEnd="@dimen/margin_medium_3" />
 
     <!--    <GridLayout-->
 <!--        android:layout_width="match_parent"-->
