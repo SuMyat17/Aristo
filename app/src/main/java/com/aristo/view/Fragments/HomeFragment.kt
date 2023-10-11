@@ -1,14 +1,18 @@
-package com.aristo.view
+package com.aristo.view.Fragments
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.GridLayout
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import com.aristo.admin.model.Category
 import com.aristo.databinding.FragmentHomeBinding
+import com.aristo.network.FirebaseApi
+import com.aristo.view.MainCategoriesActivity
+import com.aristo.view.ProductDetailActivity
 import com.aristo.view.adapters.HomeCategoryListAdapter
 import com.aristo.view.adapters.NewItemsAdapter
 

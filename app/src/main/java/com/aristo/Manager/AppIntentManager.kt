@@ -6,7 +6,10 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Paint
 import android.net.Uri
+import android.os.Handler
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
+
 
 fun openDialApp(activity : Activity, phNo : String){
 
@@ -34,6 +37,16 @@ fun openViberApp(activity: Activity, phoneNo : String) {
         val playStoreIntent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName"))
         activity.startActivity(playStoreIntent)
     }
+}
+
+fun sendMessageToViber(activity: Activity, phoneNo : String) {
+
+    val intent = Intent(Intent.ACTION_SEND)
+    intent.setPackage("com.viber.voip")
+    intent.type = "text/plain"
+    intent.putExtra(Intent.EXTRA_TEXT, "Message body")
+    activity.startActivity(intent)
+
 }
 
 fun isPackageInstalled(activity: Activity, packageName: String): Boolean {

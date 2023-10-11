@@ -46,6 +46,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tvProductName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="ဒူးရင်းသီးတံဆိပ်"
@@ -54,14 +55,7 @@
                         android:textColor="@color/black" />
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_medium"
-                        android:text="သွေးကြောအဆင် ၂မီတာကွင်း"
-                        android:textSize="14sp"
-                        android:textColor="@color/black" />
-
-                    <TextView
+                        android:id="@+id/tvQuantity"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_medium"
@@ -84,6 +78,7 @@
                             android:textColor="@color/black"
                             android:background="@drawable/background_quantity_start" />
                         <Button
+                            android:id="@+id/btnQuantity"
                             android:layout_width="35dp"
                             android:layout_height="35dp"
                             android:layout_marginStart="-1dp"
