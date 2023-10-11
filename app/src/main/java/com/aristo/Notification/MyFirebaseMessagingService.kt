@@ -13,6 +13,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import com.aristo.R
+import com.aristo.view.MainActivity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import kotlin.random.Random
@@ -41,7 +42,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
 
-        //val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, MainActivity::class.java)
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val notificationID = Random.nextInt()
 
@@ -49,15 +50,15 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             createNotificationChannel(notificationManager)
         }
 
-        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        // val pendingIntent = PendingIntent.getActivity(this, 0, intent,
-        //    FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+         val pendingIntent = PendingIntent.getActivity(this, 0, intent,
+            FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE)
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(message.data["title"])
             .setContentText(message.data["message"])
             .setSmallIcon(R.drawable.logo)
             .setAutoCancel(true)
-            // .setContentIntent(pendingIntent)
+            .setContentIntent(pendingIntent)
             .build()
 
         notificationManager.notify(notificationID, notification)
