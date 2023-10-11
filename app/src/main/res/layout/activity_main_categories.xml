@@ -5,68 +5,59 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/background"
+    android:background="@color/color_primary"
     tools:context=".view.MainCategoriesActivity">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="64dp"
+        android:background="@color/color_primary">
 
-        <ImageButton
-            android:id="@+id/ib_back"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@color/background"
-            android:hapticFeedbackEnabled="false"
-            android:src="@drawable/baseline_arrow_back_accent_24"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical">
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="အမျိုးအစားများ"
-            android:textColor="@color/black"
-            android:layout_marginLeft="15dp"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            <ImageView
+                android:id="@+id/ib_back"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:padding="@dimen/margin_card_medium_2"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:src="@drawable/baseline_arrow_back_accent_24"/>
 
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="အမျိုးအစားများ"
+                android:textColor="@color/black"
+                android:layout_marginLeft="15dp"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            <ImageButton
+                android:id="@+id/ib_search"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@color/color_primary"
+                android:src="@drawable/ic_search" />
 
-        <ImageButton
-            android:id="@+id/ib_search"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@color/background"
-            android:src="@drawable/ic_search" />
+            <ImageButton
+                android:id="@+id/ib_cart"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:background="@color/color_primary"
+                android:src="@drawable/ic_cart" />
 
-        <ImageButton
-            android:id="@+id/ib_cart"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@color/background"
-            android:src="@drawable/ic_cart" />
-    </LinearLayout>
+        </LinearLayout>
 
-    <View
-        android:id="@+id/view"
-        android:layout_width="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_height="0.5dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/grey"/>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -75,10 +66,10 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_main_categories"
-            android:layout_width="150dp"
+            android:layout_width="110dp"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
-            tools:listitem="@layout/main_cat_items" />
+            tools:listitem="@layout/view_holder_main_category" />
 
         <View
             android:layout_width="0.7dp"
@@ -91,7 +82,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:listitem="@layout/sub_cat_items"
-            android:layout_marginStart="10dp"/>
+            android:layout_marginEnd="@dimen/margin_medium"/>
+
     </LinearLayout>
 
-</LinearLayout>
+        <ProgressBar
+            android:id="@+id/mainLoading"
+            style="?android:attr/progressBarStyle"
+            android:layout_margin="@dimen/margin_large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    </LinearLayout>

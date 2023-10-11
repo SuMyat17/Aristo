@@ -1,8 +1,11 @@
 package com.aristo.view
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.aristo.admin.model.Category
 import com.aristo.databinding.ActivityProductDetailBinding
+import com.bumptech.glide.Glide
 
 class ProductDetailActivity : AppCompatActivity() {
 
@@ -14,6 +17,15 @@ class ProductDetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setUpListeners()
+
+        val productDetail: Category? = intent.getSerializableExtra("product") as? Category
+
+        binding.tvTitle.text = productDetail?.title
+        if (productDetail?.price != 0) {
+            binding.tvPrice.visibility = View.VISIBLE
+            binding.tvPrice.text = "စျေးနှုန်း - ${productDetail?.price.toString()} "
+        }
+        Glide.with(this).load(productDetail?.imageURL).into(binding.ivProduct)
     }
 
     private fun setUpListeners() {
