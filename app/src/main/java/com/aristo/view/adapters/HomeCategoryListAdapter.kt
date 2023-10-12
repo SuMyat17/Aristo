@@ -1,9 +1,12 @@
 package com.aristo.view.adapters
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.aristo.Manager.processColorCode
 import com.aristo.admin.model.Category
 import com.aristo.databinding.ViewHolderCategoryListBinding
 import com.bumptech.glide.Glide
@@ -19,7 +22,14 @@ class HomeCategoryListAdapter(private val listener: HomeMainCategoryListener) : 
             }
 
             binding.tvFirstCategory.text = category.title
-            Glide.with(context).load(category.imageURL).into(binding.ivFirstCategory)
+
+            if(category.colorCode != ""){
+                binding.ivFirstCategory.foreground = ColorDrawable(Color.parseColor(processColorCode(category.colorCode)))
+            }
+            else{
+                Glide.with(context).load(category.imageURL).into(binding.ivFirstCategory)
+            }
+
         }
     }
 

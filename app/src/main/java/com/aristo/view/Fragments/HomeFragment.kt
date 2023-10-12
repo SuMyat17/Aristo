@@ -10,8 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.aristo.admin.model.Category
 import com.aristo.databinding.FragmentHomeBinding
-import com.aristo.view.MainCategoriesActivity
 import com.aristo.network.FirebaseApi
+import com.aristo.view.MainCategoriesActivity
 import com.aristo.view.ProductDetailActivity
 import com.aristo.view.adapters.HomeCategoryListAdapter
 import com.aristo.view.adapters.NewItemsAdapter
@@ -86,7 +86,7 @@ class HomeFragment : Fragment(), HomeCategoryListAdapter.HomeMainCategoryListene
 
         mCategoryAdapter = HomeCategoryListAdapter(this)
         binding.rvCategoryList.adapter = mCategoryAdapter
-        binding.rvCategoryList.layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.rvCategoryList.layoutManager = GridLayoutManager(requireContext(),2)
 
     }
 

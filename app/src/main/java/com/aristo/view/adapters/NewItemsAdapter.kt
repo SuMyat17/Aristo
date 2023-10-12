@@ -2,9 +2,13 @@ package com.aristo.view.adapters
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.aristo.Manager.processColorCode
 import com.aristo.admin.model.Category
 import com.aristo.databinding.ViewHolderNewItemsBinding
 import com.aristo.view.ProductDetailActivity
@@ -22,8 +26,20 @@ class NewItemsAdapter(private var listener: NewItemListener) : RecyclerView.Adap
             }
 
             binding.tvItemName.text = category.title
-            Glide.with(context).load(category.imageURL).into(binding.ivFullImage)
-            Glide.with(context).load(category.imageURL).into(binding.ivSmallImage)
+
+            Log.d("bind Datas", "bind Datas: ${category.imageURL}")
+
+            if(category.colorCode != ""){
+                binding.ivFullImage.foreground = ColorDrawable(Color.parseColor(processColorCode(category.colorCode)))
+                binding.ivSmallImage.foreground = ColorDrawable(Color.parseColor(processColorCode(category.colorCode)))
+            }
+            else{
+                Glide.with(context).load(category.imageURL).into(binding.ivFullImage)
+                Glide.with(context).load(category.imageURL).into(binding.ivSmallImage)
+                binding.ivFullImage.foreground = null
+                binding.ivSmallImage.foreground = null
+            }
+
         }
     }
 
@@ -33,6 +49,7 @@ class NewItemsAdapter(private var listener: NewItemListener) : RecyclerView.Adap
     }
 
     override fun onBindViewHolder(holder: NewItemViewHolder, position: Int) {
+
         if (dataList.isNotEmpty()) {
             holder.bind(dataList[position])
         }
