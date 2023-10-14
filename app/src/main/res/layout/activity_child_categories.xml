@@ -40,14 +40,14 @@
             android:id="@+id/ib_search"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="@color/background"
+            android:background="@color/color_primary"
             android:src="@drawable/ic_search" />
 
         <ImageButton
             android:id="@+id/ib_cart"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="@color/background"
+            android:background="@color/color_primary"
             android:src="@drawable/ic_cart" />
 
     </LinearLayout>
