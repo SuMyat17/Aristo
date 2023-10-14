@@ -50,7 +50,10 @@ class CartAdapter(private var listener: CartItemListener) : RecyclerView.Adapter
 
             binding.btnMinus.setOnClickListener {
                 if (quantity >1) { quantity-=1 }
-                else { listener.onTapDelete(cart) }
+                else {
+                    listener.onTapDelete(cart)
+                    return@setOnClickListener
+                }
                 binding.btnQuantity.text = quantity.toString()
                 binding.tvQuantity.text = getQuantityText(quantity, cart.product?.type)
                 cartList.forEach {

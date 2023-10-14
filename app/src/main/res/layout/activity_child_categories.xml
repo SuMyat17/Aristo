@@ -43,6 +43,7 @@
             android:background="@color/background"
             android:src="@drawable/outline_shopping_cart_accent_24" />
 
+
     </LinearLayout>
 
     <View
