@@ -27,14 +27,14 @@
                 android:src="@drawable/baseline_arrow_back_accent_24"
                 android:background="@color/color_primary"/>
 
-            <ImageButton
-                android:id="@+id/ibCart"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"
-                android:src="@drawable/ic_cart"
-                android:background="@color/color_primary"/>
+<!--            <ImageButton-->
+<!--                android:id="@+id/ibCart"-->
+<!--                android:layout_width="48dp"-->
+<!--                android:layout_height="48dp"-->
+<!--                android:layout_centerVertical="true"-->
+<!--                android:layout_alignParentEnd="true"-->
+<!--                android:src="@drawable/ic_cart"-->
+<!--                android:background="@color/color_primary"/>-->
 
         </RelativeLayout>
 

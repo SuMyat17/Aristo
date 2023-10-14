@@ -1,6 +1,8 @@
 package com.aristo.view.adapters
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -8,6 +10,7 @@ import com.aristo.Manager.SharedPreferenceManager
 import com.aristo.Manager.SharedPreferenceManager.initializeSharedPref
 import com.aristo.databinding.ViewHolderCartBinding
 import com.aristo.model.Cart
+import com.aristo.utils.processColorCode
 import com.bumptech.glide.Glide
 
 class CartAdapter(private var listener: CartItemListener) : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
@@ -15,19 +18,26 @@ class CartAdapter(private var listener: CartItemListener) : RecyclerView.Adapter
 
     class CartViewHolder(var binding: ViewHolderCartBinding, val context: Context, var listener: CartItemListener) : RecyclerView.ViewHolder(binding.root) {
         fun bind(cart: Cart, position: Int) {
-            Glide.with(context).load(cart.product?.imageURL).into(binding.ivProductImage)
-            binding.tvProductName.text = cart.product?.title
-            binding.tvQuantity.text = "အရေအတွက် - (${cart.quantity})"
 
-            var quantity = cart.quantity
+            if (cart.product?.colorCode != "" && cart.product?.colorCode?.count() in 7..10){
+                binding.ivProductImage.foreground = ColorDrawable(Color.parseColor(processColorCode(cart.product!!.colorCode)))
+            } else if (cart.product?.imageURL != "") {
+                binding.ivProductImage.foreground = null
+                Glide.with(context).load(cart.product?.imageURL).into(binding.ivProductImage)
+            }
+            binding.tvProductName.text = cart.product?.title
 
             initializeSharedPref(context, "cartList")
             val cartList = SharedPreferenceManager.getCartList()
 
+            var quantity = cart.quantity
+
+            binding.tvQuantity.text = getQuantityText(quantity, cart.product?.type)
+
             binding.btnAdd.setOnClickListener {
                 quantity+=1
                 binding.btnQuantity.text = quantity.toString()
-                binding.tvQuantity.text = "အရေအတွက် - ($quantity)"
+                binding.tvQuantity.text = getQuantityText(quantity, cart.product?.type)
 
                 cartList.forEach {
                     if (it.product?.id == cart.product?.id) {
@@ -42,7 +52,7 @@ class CartAdapter(private var listener: CartItemListener) : RecyclerView.Adapter
                 if (quantity >1) { quantity-=1 }
                 else { listener.onTapDelete(cart) }
                 binding.btnQuantity.text = quantity.toString()
-                binding.tvQuantity.text = "အရေအတွက် - ($quantity)"
+                binding.tvQuantity.text = getQuantityText(quantity, cart.product?.type)
                 cartList.forEach {
                     if (it.product?.id == cart.product?.id) {
                         it.quantity = quantity
@@ -56,6 +66,19 @@ class CartAdapter(private var listener: CartItemListener) : RecyclerView.Adapter
             binding.btnDelete.setOnClickListener {
                 listener.onTapDelete(cart)
             }
+        }
+
+        private fun getQuantityText(quantity: Int, type: String?): String {
+            var text = "အရေအတွက် - ($quantity)"
+            type?.let {
+                when {
+                    it.contains("ထည်") -> text += " ထည် \n"
+                    it.contains("လိပ်") -> text += " လိပ် \n"
+                    it.contains("စီး") -> text += " စီး \n"
+                    it.contains("ကွင်း") -> text += " ကွင်း \n"
+                }
+            }
+            return text
         }
     }
 

@@ -1,4 +1,4 @@
-package com.aristo.Manager
+package com.aristo.utils
 
 fun processColorCode(apiColorCode: String): String {
     // Check if apiColorCode starts with "#" and add "#" if it doesn't

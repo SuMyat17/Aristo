@@ -47,9 +47,8 @@ class DeveloperInformationFragment : Fragment() {
         }
 
         binding.tvFacebook.setOnClickListener {
-            openFacebookApp(requireActivity(),"https://www.facebook.com/appleauthorizedreseller?mibextid=ZbWKwL")
+            openFacebookApp(requireActivity(),"https://www.facebook.com/profile.php?id=61552194935730&mibextid=LQQJ4d")
         }
-
 
     }
 

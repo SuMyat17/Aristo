@@ -3,8 +3,6 @@ package com.aristo.admin.model
 import android.net.Uri
 import java.io.Serializable
 
-
-
 data class Category(
     var id: String = "",
     val title: String ="",

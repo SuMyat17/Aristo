@@ -6,7 +6,7 @@ import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.aristo.Manager.processColorCode
+import com.aristo.utils.processColorCode
 import com.aristo.admin.model.Category
 import com.aristo.databinding.ViewHolderCategoryListBinding
 import com.bumptech.glide.Glide

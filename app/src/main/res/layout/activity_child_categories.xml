@@ -37,18 +37,11 @@
             android:textStyle="bold" />
 
         <ImageButton
-            android:id="@+id/ib_search"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@color/background"
-            android:src="@drawable/ic_search" />
-
-        <ImageButton
             android:id="@+id/ib_cart"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@color/background"
-            android:src="@drawable/ic_cart" />
+            android:src="@drawable/outline_shopping_cart_accent_24" />
 
     </LinearLayout>
 

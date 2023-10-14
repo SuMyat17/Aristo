@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.aristo.Manager.SharedPreferenceManager
 import com.aristo.Manager.SharedPreferenceManager.initializeSharedPref
-import com.aristo.Manager.processColorCode
+import com.aristo.utils.processColorCode
 import com.aristo.admin.model.Category
 import com.aristo.databinding.ActivityProductDetailBinding
 import com.aristo.model.Cart
@@ -34,16 +34,12 @@ class ProductDetailActivity : AppCompatActivity() {
             binding.tvPrice.text = "စျေးနှုန်း - ${product?.price.toString()} "
         }
 
-        if (product != null){
-            if(product!!.colorCode != ""){
-                binding.ivProduct.foreground = ColorDrawable(Color.parseColor(processColorCode(
-                    product!!.colorCode)))
-            }
-            else{
-                Glide.with(this).load(product?.imageURL).into(binding.ivProduct)
-            }
+        if (product?.colorCode != "" && product?.colorCode?.count() in 7..10){
+            binding.ivProduct.foreground = ColorDrawable(Color.parseColor(processColorCode(product!!.colorCode)))
+        } else if (product?.imageURL != "") {
+            binding.ivProduct.foreground = null
+            Glide.with(this).load(product?.imageURL).into(binding.ivProduct)
         }
-
     }
 
     private fun setUpListeners() {
