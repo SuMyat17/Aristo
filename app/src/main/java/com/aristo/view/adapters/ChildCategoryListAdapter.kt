@@ -2,11 +2,16 @@ package com.aristo.view.adapters
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.aristo.R
 import com.aristo.admin.model.Category
 import com.aristo.databinding.ViewHolderCategoryListBinding
+import com.aristo.utils.processColorCode
 import com.aristo.view.ChildCategoriesActivity
 import com.aristo.view.ProductDetailActivity
 import com.bumptech.glide.Glide
@@ -18,13 +23,23 @@ class ChildCategoryListAdapter(private val context: Context) : RecyclerView.Adap
     class SubCategoryListViewHolder(private var binding: ViewHolderCategoryListBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(category: Category, context: Context, position: Int) {
             binding.tvFirstCategory.text = category.title
-            Glide.with(context).load(category.imageURL).into(binding.ivFirstCategory)
 
-//            if (category.subCategories.isEmpty()) {
-//                if (category.new) {
-//                    binding.ivNew.visibility = View.VISIBLE
-//                }
-//            }
+            if (category.subCategories.isEmpty()) {
+                if (category.new) {
+                    binding.ivNew.visibility = View.VISIBLE
+                } else {
+                    binding.ivNew.visibility = View.GONE
+                }
+            } else {
+                binding.ivNew.visibility = View.GONE
+            }
+
+            if (category.colorCode != "" && category.colorCode.count() in 7..10){
+                binding.ivFirstCategory.foreground = ColorDrawable(Color.parseColor(processColorCode(category.colorCode)))
+            } else if (category.imageURL.isNotEmpty()) {
+                binding.ivFirstCategory.foreground = null
+                Glide.with(context).load(category.imageURL).into(binding.ivFirstCategory)
+            }
         }
     }
 

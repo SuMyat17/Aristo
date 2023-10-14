@@ -39,12 +39,11 @@ fun openViberApp(activity: Activity, phoneNo : String) {
     }
 }
 
-fun sendMessageToViber(activity: Activity, phoneNo : String) {
-
+fun sendMessageToViber(activity: Activity, message : String) {
     val intent = Intent(Intent.ACTION_SEND)
     intent.setPackage("com.viber.voip")
     intent.type = "text/plain"
-    intent.putExtra(Intent.EXTRA_TEXT, "Message body")
+    intent.putExtra(Intent.EXTRA_TEXT, message)
     activity.startActivity(intent)
 
 }

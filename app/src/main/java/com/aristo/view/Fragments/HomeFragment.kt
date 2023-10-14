@@ -5,19 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-<<<<<<<<< Temporary merge branch 1:app/src/main/java/com/aristo/view/Fragments/HomeFragment.kt
-=========
 import android.widget.Toast
->>>>>>>>> Temporary merge branch 2:app/src/main/java/com/aristo/view/HomeFragment.kt
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.aristo.admin.model.Category
 import com.aristo.databinding.FragmentHomeBinding
-<<<<<<<<< Temporary merge branch 1:app/src/main/java/com/aristo/view/Fragments/HomeFragment.kt
+import com.aristo.view.ProductDetailActivity
 import com.aristo.view.MainCategoriesActivity
-=========
 import com.aristo.network.FirebaseApi
->>>>>>>>> Temporary merge branch 2:app/src/main/java/com/aristo/view/HomeFragment.kt
 import com.aristo.view.adapters.HomeCategoryListAdapter
 import com.aristo.view.adapters.NewItemsAdapter
 
@@ -68,7 +63,6 @@ class HomeFragment : Fragment(), HomeCategoryListAdapter.HomeMainCategoryListene
             }
             binding.progressBar.visibility = View.GONE
         }
-
     }
 
     private fun findCategoryWithEmptySubcategories(rootCategory: Category) {

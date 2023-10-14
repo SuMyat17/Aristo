@@ -38,4 +38,10 @@ object SharedPreferenceManager {
         }
         return emptyList()
     }
+
+    fun clearCartList() {
+        val editor = sharedPreferences.edit()
+        editor.remove("cartList")
+        editor.apply()
+    }
 }

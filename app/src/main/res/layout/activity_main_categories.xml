@@ -46,10 +46,10 @@
 
             <ImageButton
                 android:id="@+id/ib_cart"
-                android:layout_width="46dp"
-                android:layout_height="46dp"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
                 android:background="@color/color_primary"
-                android:src="@drawable/ic_cart" />
+                android:src="@drawable/outline_shopping_cart_accent_24" />
 
         </LinearLayout>
 
@@ -82,7 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:listitem="@layout/sub_cat_items"
-            android:layout_marginEnd="@dimen/margin_medium"/>
+            android:layout_marginStart="@dimen/margin_medium_2"/>
 
     </LinearLayout>
 

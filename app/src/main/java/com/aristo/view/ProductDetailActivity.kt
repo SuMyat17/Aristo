@@ -1,5 +1,7 @@
 package com.aristo.view
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -9,6 +11,7 @@ import com.aristo.Manager.SharedPreferenceManager.initializeSharedPref
 import com.aristo.admin.model.Category
 import com.aristo.databinding.ActivityProductDetailBinding
 import com.aristo.model.Cart
+import com.aristo.utils.processColorCode
 import com.bumptech.glide.Glide
 
 class ProductDetailActivity : AppCompatActivity() {
@@ -30,7 +33,13 @@ class ProductDetailActivity : AppCompatActivity() {
             binding.tvPrice.visibility = View.VISIBLE
             binding.tvPrice.text = "စျေးနှုန်း - ${product?.price.toString()} "
         }
-        Glide.with(this).load(product?.imageURL).into(binding.ivProduct)
+
+        if (product?.colorCode != "" && product?.colorCode?.count() in 7..10){
+            binding.ivProduct.foreground = ColorDrawable(Color.parseColor(processColorCode(product!!.colorCode)))
+        } else if (product?.imageURL != "") {
+            binding.ivProduct.foreground = null
+            Glide.with(this).load(product?.imageURL).into(binding.ivProduct)
+        }
     }
 
     private fun setUpListeners() {

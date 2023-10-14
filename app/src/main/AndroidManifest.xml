@@ -14,7 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Aristo"
         tools:targetApi="31">
-        <activity
 
         <service
             android:name=".Notification.MyFirebaseMessagingService"
@@ -24,9 +23,6 @@
             </intent-filter>
         </service>
 
-        <activity
-            android:name=".view.ProductListActivity"
-            android:exported="false" />
         <activity
             android:name=".view.MainActivity"
             android:exported="true">

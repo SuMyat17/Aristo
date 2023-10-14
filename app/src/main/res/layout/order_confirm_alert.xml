@@ -6,7 +6,7 @@
     android:background="@color/white"
     android:orientation="vertical"
     android:gravity="center"
-    android:padding="20dp"
+    android:padding="@dimen/margin_large"
     app:cardCornerRadius="20dp">
 
     <ImageView
@@ -14,8 +14,8 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_gravity="center"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:layout_marginBottom="@dimen/margin_large"
         app:srcCompat="@drawable/ic_order_confirm" />
 
     <TextView
@@ -24,28 +24,56 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="အော်ဒါအတည်ပြုရန်"
+        android:layout_marginBottom="@dimen/margin_medium"
         android:textSize="20sp"
         android:textColor="@color/black"
         android:textStyle="bold" />
 
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal">-->
 
-    <TextView
-        android:id="@+id/tvMessage"
+<!--        <TextView-->
+<!--            android:id="@+id/tvAlertItemName"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="@dimen/margin_medium"-->
+<!--            android:layout_weight="1"-->
+<!--            android:layout_marginEnd="@dimen/margin_medium"-->
+<!--            android:gravity="center"-->
+<!--            android:textSize="16sp"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textStyle="bold" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/tvAlertItemQuantity"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:layout_marginTop="@dimen/margin_medium"-->
+<!--            android:layout_marginEnd="@dimen/margin_medium"-->
+<!--            android:gravity="center"-->
+<!--            android:textSize="16sp"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textStyle="bold" />-->
+
+<!--    </LinearLayout>-->
+
+    <GridLayout
+        android:id="@+id/gridLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:gravity="center"
-        android:text="သင့်အော်ဒါကို
-Viber Applicationတွင်အတည်ပြုရန် ကျေးဇူးပြု၍“Confirm”ခလုတ်ကိုနှိပ်ပေးပါ။"
-        android:textSize="16sp"
-        android:textColor="@color/black"
-        android:textStyle="bold" />
+        android:padding="@dimen/margin_large"
+        android:columnCount="2">
+
+    </GridLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="@dimen/margin_medium_2">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnCancel"
@@ -63,7 +91,9 @@ Viber Applicationတွင်အတည်ပြုရန် ကျေးဇူ�
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Confirm"
+            android:paddingStart="@dimen/margin_medium"
+            android:paddingEnd="@dimen/margin_medium"
+            android:text="Send to Viber"
             android:textColor="@color/white"
             android:background="@drawable/rounded_border_button"/>
 
