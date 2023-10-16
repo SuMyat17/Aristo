@@ -57,7 +57,8 @@
         android:id="@+id/rv_sub_categories"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/margin_medium_2"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginEnd="@dimen/margin_small"
         tools:listitem="@layout/sub_cat_items" />
 
 </LinearLayout>

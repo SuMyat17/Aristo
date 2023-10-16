@@ -1,5 +1,6 @@
 package com.aristo.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -52,6 +53,13 @@ class MainCategoriesActivity : AppCompatActivity(), MainCategoriesRecyclerViewLi
                 Toast.makeText(this, "Can't retrieve data.", Toast.LENGTH_LONG).show()
             }
             binding.mainLoading.visibility = View.GONE
+        }
+
+        binding.ibCart.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("fragmentToOpen", "Cart")
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(intent)
         }
     }
 

@@ -98,14 +98,6 @@
 
                 </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/btnDelete"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="end|bottom"
-                    android:layout_marginBottom="@dimen/margin_medium"
-                    android:src="@drawable/ic_delete"/>
-
             </FrameLayout>
 
         </LinearLayout>
