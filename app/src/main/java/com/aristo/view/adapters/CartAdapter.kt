@@ -72,15 +72,16 @@ class CartAdapter(private var listener: CartItemListener) : RecyclerView.Adapter
         }
 
         private fun getQuantityText(quantity: Int, type: String?): String {
-            var text = "အရေအတွက် - ($quantity)"
-            type?.let {
-                when {
-                    it.contains("ထည်") -> text += " ထည် \n"
-                    it.contains("လိပ်") -> text += " လိပ် \n"
-                    it.contains("စီး") -> text += " စီး \n"
-                    it.contains("ကွင်း") -> text += " ကွင်း \n"
-                }
-            }
+            var text = "အရေအတွက် - ($quantity) "
+            text += type
+//            type?.let {
+//                when {
+//                    it.contains("ထည်") -> text += " ထည် \n"
+//                    it.contains("လိပ်") -> text += " လိပ် \n"
+//                    it.contains("စီး") -> text += " စီး \n"
+//                    it.contains("ကွင်း") -> text += " ကွင်း \n"
+//                }
+//            }
             return text
         }
     }

@@ -62,7 +62,7 @@
                     android:id="@+id/ivProduct"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
-                    android:scaleType="centerCrop"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/ic_placeholder" />
 
             </androidx.cardview.widget.CardView>
@@ -103,11 +103,16 @@
         android:layout_height="0.7dp"
         android:background="@color/grey"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/margin_xlarge"
-        android:gravity="center">
+        android:padding="@dimen/margin_xlarge">
+
+        <LinearLayout
+            android:id="@+id/llSteper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
 
         <Button
             android:id="@+id/btnMinus"
@@ -133,7 +138,19 @@
             android:textColor="@color/black"
             android:background="@drawable/background_quantity_end" />
 
-    </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium_2"
+            android:layout_toEndOf="@id/llSteper"
+            android:layout_centerVertical="true"
+            android:text="အထုပ်"
+            android:textColor="@color/black"/>
+
+    </RelativeLayout>
 
     <Button
         android:id="@+id/btnAddToCart"
