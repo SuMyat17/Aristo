@@ -10,8 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraint"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="40dp">
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/imageView4"
@@ -93,13 +92,13 @@
 
                             <TextView
                                 android:id="@+id/tvAddress"
+                                style="@style/LinkTextView"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
+                                android:background="?android:attr/selectableItemBackground"
                                 android:gravity="left"
                                 android:text="@string/aristo_email"
-                                android:background="?android:attr/selectableItemBackground"
-                                style="@style/LinkTextView"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -138,13 +137,13 @@
 
                             <TextView
                                 android:id="@+id/tvPhoneNo"
+                                style="@style/LinkTextView"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
+                                android:background="?android:attr/selectableItemBackground"
                                 android:gravity="center"
                                 android:text="@string/aristo_email"
-                                android:background="?android:attr/selectableItemBackground"
-                                style="@style/LinkTextView"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -182,13 +181,13 @@
 
                             <TextView
                                 android:id="@+id/tvViber"
+                                style="@style/LinkTextView"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
+                                android:background="?android:attr/selectableItemBackground"
                                 android:gravity="center"
                                 android:text="@string/aristo_viber_ph"
-                                android:background="?android:attr/selectableItemBackground"
-                                style="@style/LinkTextView"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -226,13 +225,13 @@
 
                             <TextView
                                 android:id="@+id/tvFacebook"
+                                style="@style/LinkTextView"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
+                                android:background="?android:attr/selectableItemBackground"
                                 android:gravity="center"
                                 android:text="@string/aristo_fb"
-                                android:background="?android:attr/selectableItemBackground"
-                                style="@style/LinkTextView"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -248,14 +247,15 @@
             android:id="@+id/ivLogo"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="40dp"
+            android:elevation="8dp"
             android:scaleType="centerCrop"
+            android:src="@drawable/ta_logo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/constraint"
-            android:src="@drawable/logo"
-            android:layout_gravity="center"
-            android:elevation="8dp"
-            app:shapeAppearanceOverlay="@style/Circular"/>
+            app:shapeAppearanceOverlay="@style/Circular" />
 
         <ProgressBar
             android:id="@+id/progressBar"
