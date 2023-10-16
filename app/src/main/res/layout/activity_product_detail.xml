@@ -62,7 +62,7 @@
                     android:id="@+id/ivProduct"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
-                    android:scaleType="centerCrop"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/ic_placeholder" />
 
             </androidx.cardview.widget.CardView>
@@ -132,6 +132,14 @@
             android:text="+"
             android:textColor="@color/black"
             android:background="@drawable/background_quantity_end" />
+
+        <TextView
+            android:id="@+id/tvType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium_2"
+            android:text="အထုပ်"
+            android:textColor="@color/black"/>
 
     </LinearLayout>
 

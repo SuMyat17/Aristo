@@ -40,6 +40,7 @@ class ProductDetailActivity : AppCompatActivity() {
             binding.ivProduct.foreground = null
             Glide.with(this).load(product?.imageURL).into(binding.ivProduct)
         }
+        binding.tvType.text = product?.type
     }
 
     private fun setUpListeners() {

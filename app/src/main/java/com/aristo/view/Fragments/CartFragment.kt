@@ -84,15 +84,15 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
 
         var message = ""
         cartList.forEach {
-            message += "${it.product?.title} ${it.quantity}"
-            it.product?.type?.let { type ->
-                when {
-                    type.contains("ထည်") -> message += " ထည် \n"
-                    type.contains("လိပ်") -> message += " လိပ် \n"
-                    type.contains("စီး") -> message += " စီး \n"
-                    type.contains("ကွင်း") -> message += " ကွင်း \n"
-                }
-            }
+            message += "${it.product?.title} ${it.quantity} ${it.product?.type}"
+//            it.product?.type?.let { type ->
+//                when {
+//                    type.contains("ထည်") -> message += " ထည် \n"
+//                    type.contains("လိပ်") -> message += " လိပ် \n"
+//                    type.contains("စီး") -> message += " စီး \n"
+//                    type.contains("ကွင်း") -> message += " ကွင်း \n"
+//                }
+//            }
 
             val itemNameTextView = TextView(context)
             itemNameTextView.text = "${it.product?.title} \n"
@@ -104,15 +104,15 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
             params1.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1.5f)
             itemNameTextView.layoutParams = params1
             val itemQuantityTextView = TextView(context)
-            var text = "${it.quantity}"
-            it.product?.type?.let { type ->
-                when {
-                    type.contains("ထည်") -> text += " ထည် \n"
-                    type.contains("လိပ်") -> text += " လိပ် \n"
-                    type.contains("စီး") -> text += " စီး \n"
-                    type.contains("ကွင်း") -> text += " ကွင်း \n"
-                }
-            }
+            var text = "${it.quantity} ${it.product?.type}"
+//            it.product?.type?.let { type ->
+//                when {
+//                    type.contains("ထည်") -> text += " ထည် \n"
+//                    type.contains("လိပ်") -> text += " လိပ် \n"
+//                    type.contains("စီး") -> text += " စီး \n"
+//                    type.contains("ကွင်း") -> text += " ကွင်း \n"
+//                }
+//            }
             itemQuantityTextView.text = text
             itemQuantityTextView.setTextColor(resources.getColor(R.color.black))
             itemQuantityTextView.textSize = 16f
