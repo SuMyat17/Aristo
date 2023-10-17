@@ -1,7 +1,6 @@
 package com.aristo.view.Fragments
 
 import android.app.AlertDialog
-import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,26 +10,24 @@ import android.widget.GridLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.aristo.Manager.*
 import com.aristo.Manager.Network.Firebase
-import com.aristo.Manager.SharedPreferenceManager.clearCartList
 import com.aristo.R
+import com.aristo.admin.model.Category
 import com.aristo.databinding.FragmentCartBinding
-import com.aristo.databinding.OrderConfirmAlertBinding
 import com.aristo.model.Cart
+import com.aristo.network.FirebaseApi
 import com.aristo.view.adapters.CartAdapter
-import org.w3c.dom.Text
-import java.nio.file.Files.find
 
 class CartFragment : Fragment(), CartAdapter.CartItemListener {
 
     private lateinit var binding: FragmentCartBinding
     private lateinit var mCartAdapter: CartAdapter
     private var cartList = arrayListOf<Cart>()
+
+    private var firebaseApi = FirebaseApi()
+    private var isFound = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +39,7 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.progressBar.visibility = View.VISIBLE
 
         setUpAdapters()
 
@@ -50,8 +48,29 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
             cartList = ArrayList(SharedPreferenceManager.getCartList())
         }
 
-        binding.tvTotalQuantity.text = SharedPreferenceManager.getCartList().size.toString()
-        mCartAdapter.setNewData(cartList)
+        firebaseApi.getMainCategoryData{ isSuccess, data ->
+            if (isSuccess) {
+                var filteredCartList = arrayListOf<Cart>()
+
+                cartList.forEach outerLoop@{ cart ->
+                    isFound = false
+                    data?.forEach { mainCategory ->
+                        if (isFound) {
+                            filteredCartList.add(cart)
+                            return@outerLoop
+                        } else {
+                            findCategoryWithEmptySubcategories(mainCategory, cart)
+                        }
+                    }
+                }
+                SharedPreferenceManager.saveCartList(filteredCartList.toList())
+                mCartAdapter.setNewData(filteredCartList)
+                binding.tvTotalQuantity.text = SharedPreferenceManager.getCartList().size.toString()
+            } else {
+                Toast.makeText(requireContext(), "Can't retrieve data.", Toast.LENGTH_LONG).show()
+            }
+            binding.progressBar.visibility = View.GONE
+        }
 
         binding.btnOrder.setOnClickListener {
 
@@ -60,6 +79,18 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
             } else {
                 Toast.makeText(requireContext(), "Please add some products", Toast.LENGTH_LONG).show()
             }
+        }
+    }
+
+    private fun findCategoryWithEmptySubcategories(rootCategory: Category, cart: Cart){
+        if (isFound) {
+            return
+        }
+        if (rootCategory.subCategories.isEmpty()) {
+            isFound = rootCategory.id == cart.product!!.id
+        }
+        for (subCategory in rootCategory.subCategories.values) {
+            findCategoryWithEmptySubcategories(subCategory, cart)
         }
     }
 
@@ -84,15 +115,15 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
 
         var message = ""
         cartList.forEach {
-            message += "${it.product?.title} ${it.quantity}"
-            it.product?.type?.let { type ->
-                when {
-                    type.contains("ထည်") -> message += " ထည် \n"
-                    type.contains("လိပ်") -> message += " လိပ် \n"
-                    type.contains("စီး") -> message += " စီး \n"
-                    type.contains("ကွင်း") -> message += " ကွင်း \n"
-                }
-            }
+            message += "${it.product?.title} ${it.quantity} ${it.product?.type}"
+//            it.product?.type?.let { type ->
+//                when {
+//                    type.contains("ထည်") -> message += " ထည် \n"
+//                    type.contains("လိပ်") -> message += " လိပ် \n"
+//                    type.contains("စီး") -> message += " စီး \n"
+//                    type.contains("ကွင်း") -> message += " ကွင်း \n"
+//                }
+//            }
 
             val itemNameTextView = TextView(context)
             itemNameTextView.text = "${it.product?.title} \n"
@@ -104,15 +135,15 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
             params1.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1.5f)
             itemNameTextView.layoutParams = params1
             val itemQuantityTextView = TextView(context)
-            var text = "${it.quantity}"
-            it.product?.type?.let { type ->
-                when {
-                    type.contains("ထည်") -> text += " ထည် \n"
-                    type.contains("လိပ်") -> text += " လိပ် \n"
-                    type.contains("စီး") -> text += " စီး \n"
-                    type.contains("ကွင်း") -> text += " ကွင်း \n"
-                }
-            }
+            var text = "${it.quantity} ${it.product?.type}"
+//            it.product?.type?.let { type ->
+//                when {
+//                    type.contains("ထည်") -> text += " ထည် \n"
+//                    type.contains("လိပ်") -> text += " လိပ် \n"
+//                    type.contains("စီး") -> text += " စီး \n"
+//                    type.contains("ကွင်း") -> text += " ကွင်း \n"
+//                }
+//            }
             itemQuantityTextView.text = text
             itemQuantityTextView.setTextColor(resources.getColor(R.color.black))
             itemQuantityTextView.textSize = 16f

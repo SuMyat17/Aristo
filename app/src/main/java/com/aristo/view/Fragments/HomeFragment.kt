@@ -2,6 +2,7 @@ package com.aristo.view.Fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.aristo.R
 import com.aristo.admin.model.Category
 import com.aristo.databinding.FragmentHomeBinding
 import com.aristo.network.FirebaseApi
@@ -88,6 +90,34 @@ class HomeFragment : Fragment(), HomeCategoryListAdapter.HomeMainCategoryListene
         mNewItemsAdapter = NewItemsAdapter(this)
         binding.viewPagerNewItems.adapter = mNewItemsAdapter
         binding.dotsIndicatorNewItems.attachTo(binding.viewPagerNewItems)
+
+        val handler = Handler()
+        val runnable = object : Runnable {
+            override fun run() {
+                val currentItem = binding.viewPagerNewItems.currentItem
+                val nextItem = if (currentItem == mNewItemsAdapter.itemCount - 1) 0 else currentItem + 1
+
+                binding.viewPagerNewItems.currentItem = nextItem
+
+                handler.removeCallbacks(this)
+                handler.postDelayed(this, 2500)
+            }
+        }
+
+        val pageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageScrollStateChanged(state: Int) {
+                when (state) {
+                    ViewPager2.SCROLL_STATE_DRAGGING -> {
+                        handler.removeCallbacks(runnable)
+                    }
+                    ViewPager2.SCROLL_STATE_IDLE -> {
+                        handler.postDelayed(runnable, 2500)
+                    }
+                }
+            }
+        }
+        binding.viewPagerNewItems.registerOnPageChangeCallback(pageChangeCallback)
+        handler.postDelayed(runnable, 2500)
 
         mCategoryAdapter = HomeCategoryListAdapter(this)
         binding.rvCategoryList.adapter = mCategoryAdapter
