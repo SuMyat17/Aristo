@@ -66,9 +66,9 @@ class CartAdapter(private var listener: CartItemListener) : RecyclerView.Adapter
             }
             binding.btnQuantity.text = quantity.toString()
 
-            binding.btnDelete.setOnClickListener {
-                listener.onTapDelete(cart)
-            }
+//            binding.btnDelete.setOnClickListener {
+//                listener.onTapDelete(cart)
+//            }
         }
 
         private fun getQuantityText(quantity: Int, type: String?): String {

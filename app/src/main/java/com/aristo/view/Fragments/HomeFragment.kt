@@ -8,6 +8,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.aristo.admin.model.Category
 import com.aristo.databinding.FragmentHomeBinding
 import com.aristo.network.FirebaseApi
@@ -25,6 +28,7 @@ class HomeFragment : Fragment(), HomeCategoryListAdapter.HomeMainCategoryListene
 
     private var categoryList: List<Category> = listOf()
     private var newItemList: ArrayList<Category> = arrayListOf()
+    private var isDotRemoved = false
 
     private var firebaseApi = FirebaseApi()
 
@@ -56,7 +60,9 @@ class HomeFragment : Fragment(), HomeCategoryListAdapter.HomeMainCategoryListene
                     data.forEach { mainCategory ->
                         findCategoryWithEmptySubcategories(mainCategory)
                     }
+
                     mNewItemsAdapter.setNewData(newItemList)
+
                 }
             } else {
                 Toast.makeText(requireContext(), "Can't retrieve data.", Toast.LENGTH_LONG).show()
@@ -100,5 +106,4 @@ class HomeFragment : Fragment(), HomeCategoryListAdapter.HomeMainCategoryListene
         intent.putExtra("product", category)
         startActivity(intent)
     }
-
 }

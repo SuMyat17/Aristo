@@ -46,10 +46,8 @@ class NewItemsAdapter(private var listener: NewItemListener) : RecyclerView.Adap
     }
 
     override fun onBindViewHolder(holder: NewItemViewHolder, position: Int) {
-
         if (dataList.isNotEmpty()) {
-            val actualPosition = if (itemCount > 0) position % itemCount else 0
-            holder.bind(dataList[actualPosition])
+            holder.bind(dataList[position])
         }
     }
 

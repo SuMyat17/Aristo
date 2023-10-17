@@ -1,5 +1,6 @@
 package com.aristo.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.GridLayoutManager
@@ -37,6 +38,13 @@ class ChildCategoriesActivity : AppCompatActivity() {
         binding.rvSubCategories.adapter = mSubCategoryAdapter
         if (subCategory != null) {
             mSubCategoryAdapter.setNewData(subCategory.subCategories.values.toList())
+        }
+
+        binding.ibCart.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("fragmentToOpen", "Cart")
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(intent)
         }
     }
 }

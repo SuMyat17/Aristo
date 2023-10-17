@@ -8,6 +8,9 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.aristo.R
 import com.aristo.databinding.ActivityMainBinding
+import com.aristo.view.Fragments.CartFragment
+import com.aristo.view.Fragments.HomeFragment
+import com.aristo.view.Fragments.InformationFragment
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.microsoft.appcenter.AppCenter
@@ -18,17 +21,35 @@ const val TOPIC = "/topics/myTopic2"
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding
-    private lateinit var navController : NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        navController = navHostFragment.navController
+        when (intent.getStringExtra("fragmentToOpen")) {
+            "Cart" -> {
+                supportFragmentManager.beginTransaction().replace(R.id.fl_container, CartFragment()).commit()
+                binding.bottomNav.selectedItemId = R.id.action_cart
+            }
+            "Info" -> {
+                supportFragmentManager.beginTransaction().replace(R.id.fl_container, InformationFragment()).commit()
+                binding.bottomNav.selectedItemId = R.id.action_information
+            }
+            else -> {
+                supportFragmentManager.beginTransaction().replace(R.id.fl_container, HomeFragment()).commit()
+                binding.bottomNav.selectedItemId = R.id.action_home
+            }
+        }
 
-        NavigationUI.setupWithNavController(binding.bottomNav, navController)
+        binding.bottomNav.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.action_home -> supportFragmentManager.beginTransaction().replace(R.id.fl_container, HomeFragment()).commit()
+                R.id.action_cart -> supportFragmentManager.beginTransaction().replace(R.id.fl_container, CartFragment()).commit()
+                R.id.action_information -> supportFragmentManager.beginTransaction().replace(R.id.fl_container, InformationFragment()).commit()
+            }
+            true
+        }
 
         AppCenter.start(
             application, "9e748b4f-85ad-454e-a939-60a8889e7808\"",
@@ -46,7 +67,6 @@ class MainActivity : AppCompatActivity() {
                     Log.e("FCM Token", "Failed to get FCM token")
                 }
             }
-
 
         FirebaseMessaging.getInstance().subscribeToTopic(TOPIC)
     }
@@ -68,4 +88,8 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+    }
 }
