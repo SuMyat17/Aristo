@@ -26,17 +26,18 @@ fun openEmailApp(activity : Activity, email : String){
 }
 
 fun openViberApp(activity: Activity, phoneNo : String) {
-    val packageName = "com.viber.voip"
-
-    val isViberInstalled = isPackageInstalled(activity, packageName)
-    if (isViberInstalled) {
+//    val packageName = "com.viber.voip"
+//
+//    val isViberInstalled = isPackageInstalled(activity, packageName)
+//    if (isViberInstalled) {
         val viberIntent = Intent(Intent.ACTION_VIEW, Uri.parse("viber://chat?number=%2B$phoneNo"))
+        viberIntent.setPackage("com.viber.voip")
         activity.startActivity(viberIntent)
-    } else {
-        // If Viber is not installed, you can redirect the user to the Play Store
-        val playStoreIntent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName"))
-        activity.startActivity(playStoreIntent)
-    }
+//    } else {
+//        // If Viber is not installed, you can redirect the user to the Play Store
+//        val playStoreIntent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName"))
+//        activity.startActivity(playStoreIntent)
+//    }
 }
 
 fun sendMessageToViber(activity: Activity, message : String) {
