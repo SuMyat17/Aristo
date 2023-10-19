@@ -1,6 +1,6 @@
 package com.aristo.network
 
-import com.aristo.admin.model.Category
+import com.aristo.model.Category
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference

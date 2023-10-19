@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.GridLayoutManager
-import com.aristo.admin.model.Category
+import com.aristo.model.Category
 import com.aristo.view.adapters.ChildCategoryListAdapter
 import com.aristo.databinding.ActivityChildCategoriesBinding
 

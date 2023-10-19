@@ -41,11 +41,20 @@ fun openViberApp(activity: Activity, phoneNo : String) {
 }
 
 fun sendMessageToViber(activity: Activity, message : String) {
-    val intent = Intent(Intent.ACTION_SEND)
-    intent.setPackage("com.viber.voip")
-    intent.type = "text/plain"
-    intent.putExtra(Intent.EXTRA_TEXT, message)
-    activity.startActivity(intent)
+
+    val packageName = "com.viber.voip"
+    val isViberInstalled = isPackageInstalled(activity, packageName)
+    if (isViberInstalled) {
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.setPackage(packageName)
+        intent.type = "text/plain"
+        intent.putExtra(Intent.EXTRA_TEXT, message)
+        activity.startActivity(intent)
+    } else {
+        // If Viber is not installed, you can redirect the user to the Play Store
+        val playStoreIntent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName"))
+        activity.startActivity(playStoreIntent)
+    }
 
 }
 
