@@ -1,6 +1,5 @@
-package com.aristo.admin.model
+package com.aristo.model
 
-import android.net.Uri
 import java.io.Serializable
 
 data class Category(
@@ -11,6 +10,7 @@ data class Category(
     val new: Boolean = false,
     val colorCode : String = "",
     val type : String = "",
+    val timeStamp: Long = 0L,
     //var subCategories: ArrayList<Category> = ArrayList()
     var subCategories: Map<String, Category> = mapOf()
 ): Serializable{

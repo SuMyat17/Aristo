@@ -7,15 +7,14 @@ import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.aristo.admin.model.Category
+import com.aristo.model.Category
 import com.aristo.view.adapters.ChildCategoryListAdapter
-import com.aristo.view.adapters.MainCategoriesRecyclerViewListener
 import com.aristo.view.adapters.MainCategoryListAdapter
 import com.aristo.databinding.ActivityMainCategoriesBinding
 import com.aristo.network.FirebaseApi
 import com.aristo.viewModel.CategoriesViewModel
 
-class MainCategoriesActivity : AppCompatActivity(), MainCategoriesRecyclerViewListener {
+class MainCategoriesActivity : AppCompatActivity(), MainCategoryListAdapter.MainCategoriesRecyclerViewListener {
 
     private lateinit var binding : ActivityMainCategoriesBinding
 

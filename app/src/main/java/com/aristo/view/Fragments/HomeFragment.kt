@@ -9,11 +9,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import com.aristo.R
-import com.aristo.admin.model.Category
+import com.aristo.model.Category
 import com.aristo.databinding.FragmentHomeBinding
 import com.aristo.network.FirebaseApi
 import com.aristo.view.MainCategoriesActivity
@@ -62,8 +59,8 @@ class HomeFragment : Fragment(), HomeCategoryListAdapter.HomeMainCategoryListene
                     data.forEach { mainCategory ->
                         findCategoryWithEmptySubcategories(mainCategory)
                     }
-
-                    mNewItemsAdapter.setNewData(newItemList)
+                    val sortedList = newItemList.sortedByDescending { it.timeStamp }
+                    mNewItemsAdapter.setNewData(sortedList)
 
                 }
             } else {

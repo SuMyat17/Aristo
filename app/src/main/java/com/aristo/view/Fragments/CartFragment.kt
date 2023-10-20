@@ -2,6 +2,8 @@ package com.aristo.view.Fragments
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,17 +16,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.aristo.Manager.*
 import com.aristo.Manager.Network.Firebase
 import com.aristo.R
-import com.aristo.admin.model.Category
+import com.aristo.model.Category
 import com.aristo.databinding.FragmentCartBinding
+import com.aristo.databinding.OrderConfirmAlertBinding
 import com.aristo.model.Cart
 import com.aristo.network.FirebaseApi
 import com.aristo.view.adapters.CartAdapter
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class CartFragment : Fragment(), CartAdapter.CartItemListener {
 
     private lateinit var binding: FragmentCartBinding
     private lateinit var mCartAdapter: CartAdapter
     private var cartList = arrayListOf<Cart>()
+    private var filteredCartList = arrayListOf<Cart>()
 
     private var firebaseApi = FirebaseApi()
     private var isFound = false
@@ -50,13 +55,10 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
 
         firebaseApi.getMainCategoryData{ isSuccess, data ->
             if (isSuccess) {
-                var filteredCartList = arrayListOf<Cart>()
-
                 cartList.forEach outerLoop@{ cart ->
                     isFound = false
                     data?.forEach { mainCategory ->
                         if (isFound) {
-                            filteredCartList.add(cart)
                             return@outerLoop
                         } else {
                             findCategoryWithEmptySubcategories(mainCategory, cart)
@@ -88,6 +90,9 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
         }
         if (rootCategory.subCategories.isEmpty()) {
             isFound = rootCategory.id == cart.product!!.id
+            if (isFound) {
+                filteredCartList.add(cart)
+            }
         }
         for (subCategory in rootCategory.subCategories.values) {
             findCategoryWithEmptySubcategories(subCategory, cart)
@@ -115,7 +120,7 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
 
         var message = ""
         cartList.forEach {
-            message += "${it.product?.title} ${it.quantity} ${it.product?.type}"
+            message += "${it.product?.title} ${it.quantity} ${it.product?.type} \n"
 //            it.product?.type?.let { type ->
 //                when {
 //                    type.contains("ထည်") -> message += " ထည် \n"
@@ -163,32 +168,64 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
         }
 
         btnConfirm.setOnClickListener {
-
-            Firebase.getShopDetail(requireActivity()) { isSuccess, data ->
-                if (isSuccess) {
-                    data?.let {
-                        sendMessageToViber(requireActivity(), message)
-                        SharedPreferenceManager.clearCartList()
-                        cartList.clear()
-                        binding.tvTotalQuantity.text = "0"
-                        mCartAdapter.setNewData(cartList)
-                        dialog.cancel()
-                    }
-                }
-            }
+            sendMessageToViber(requireActivity(), message)
+//            SharedPreferenceManager.clearCartList()
+//            cartList.clear()
+//            binding.tvTotalQuantity.text = "0"
+//            mCartAdapter.setNewData(cartList)
+            dialog.cancel()
         }
         dialog.show()
     }
 
-    override fun onTapDelete(cart: Cart) {
-        val itemToUpdate = cartList.find { it.product?.id == cart.product?.id }
-        if (itemToUpdate != null) {
-            cartList.remove(itemToUpdate)
-        }
-        SharedPreferenceManager.saveCartList(cartList.toList())
-        mCartAdapter.setNewData(cartList)
+    private fun deleteCartDialog(cart: Cart){
+        val builder = AlertDialog.Builder(requireContext())
+        val dialogBinding = OrderConfirmAlertBinding.inflate(layoutInflater)
+        builder.setView(dialogBinding.root)
+        builder.setCancelable(false)
 
-        binding.tvTotalQuantity.text = SharedPreferenceManager.getCartList().size.toString()
+        val dialog = builder.create()
+
+        dialogBinding.tvAlertTitle.text = "ခြင်းထဲမှဖျက်ရန်"
+        dialogBinding.btnConfirm.text = "Confirm"
+
+        val itemNameTextView = TextView(context)
+        itemNameTextView.text = "ခြင်းထဲမှပစ္စည်းကို ဖျက်ရန်သေချာပါသလား"
+        itemNameTextView.setTextColor(resources.getColor(R.color.black))
+        itemNameTextView.textSize = 16f
+        itemNameTextView.gravity = Gravity.CENTER
+        dialogBinding.gridLayout.addView(itemNameTextView)
+
+        dialogBinding.btnConfirm.setOnClickListener {
+            val itemToUpdate = cartList.find { it.product?.id == cart.product?.id }
+            if (itemToUpdate != null) {
+                cartList.remove(itemToUpdate)
+            }
+            SharedPreferenceManager.saveCartList(cartList.toList())
+            mCartAdapter.setNewData(cartList)
+
+            binding.tvTotalQuantity.text = SharedPreferenceManager.getCartList().size.toString()
+            dialog.cancel()
+        }
+
+        dialogBinding.btnCancel.setOnClickListener {
+            dialog.cancel()
+        }
+
+        dialog.show()
+    }
+
+
+    override fun onTapDelete(cart: Cart) {
+        deleteCartDialog(cart)
+//        val itemToUpdate = cartList.find { it.product?.id == cart.product?.id }
+//        if (itemToUpdate != null) {
+//            cartList.remove(itemToUpdate)
+//        }
+//        SharedPreferenceManager.saveCartList(cartList.toList())
+//        mCartAdapter.setNewData(cartList)
+//
+//        binding.tvTotalQuantity.text = SharedPreferenceManager.getCartList().size.toString()
     }
 
     override fun onTapAdd() {

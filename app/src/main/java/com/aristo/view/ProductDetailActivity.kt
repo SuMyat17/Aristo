@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.aristo.Manager.SharedPreferenceManager
 import com.aristo.Manager.SharedPreferenceManager.initializeSharedPref
 import com.aristo.utils.processColorCode
-import com.aristo.admin.model.Category
+import com.aristo.model.Category
 import com.aristo.databinding.ActivityProductDetailBinding
 import com.aristo.model.Cart
 import com.bumptech.glide.Glide
@@ -82,6 +82,7 @@ class ProductDetailActivity : AppCompatActivity() {
             }
             SharedPreferenceManager.saveCartList(cartList.toList())
             Toast.makeText(this, "Successfully added to cart", Toast.LENGTH_LONG).show()
+            finish()
         }
     }
 }

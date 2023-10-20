@@ -59,6 +59,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             .setSmallIcon(R.drawable.logo)
             .setAutoCancel(true)
             .setContentIntent(pendingIntent)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
             .build()
 
         notificationManager.notify(notificationID, notification)

@@ -4,16 +4,22 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.aristo.R
 import com.aristo.utils.processColorCode
-import com.aristo.admin.model.Category
+import com.aristo.model.Category
 import com.aristo.databinding.ViewHolderCategoryListBinding
 import com.aristo.view.ChildCategoriesActivity
 import com.aristo.view.ProductDetailActivity
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.RequestOptions
 
 class ChildCategoryListAdapter(private val context: Context) : RecyclerView.Adapter<ChildCategoryListAdapter.SubCategoryListViewHolder>() {
 
@@ -34,10 +40,27 @@ class ChildCategoryListAdapter(private val context: Context) : RecyclerView.Adap
             }
 
             if (category.colorCode != "" && category.colorCode.count() in 7..10){
+                binding.progressBar.visibility = View.GONE
                 binding.ivFirstCategory.foreground = ColorDrawable(Color.parseColor(processColorCode(category.colorCode)))
-            } else if (category.imageURL.isNotEmpty()) {
+            } else {
                 binding.ivFirstCategory.foreground = null
-                Glide.with(context).load(category.imageURL).into(binding.ivFirstCategory)
+
+                binding.progressBar.visibility = View.VISIBLE
+                Glide.with(context).load(category.imageURL).apply(RequestOptions.placeholderOf(R.drawable.ic_placeholder))
+                    .listener(object : RequestListener<Drawable> {
+                        override fun onLoadFailed(e: GlideException?, model: Any?, target: com.bumptech.glide.request.target.Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                            binding.progressBar.visibility = View.GONE
+                            binding.ivFirstCategory.setImageResource(R.drawable.ic_placeholder)
+                            return false
+                        }
+
+                        override fun onResourceReady(resource: Drawable?, model: Any?, target: com.bumptech.glide.request.target.Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                            binding.progressBar.visibility = View.GONE
+                            return false
+                        }
+                    })
+                    .into(binding.ivFirstCategory)
+
             }
         }
     }
