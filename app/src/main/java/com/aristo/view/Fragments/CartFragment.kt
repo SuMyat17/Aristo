@@ -169,10 +169,10 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
 
         btnConfirm.setOnClickListener {
             sendMessageToViber(requireActivity(), message)
-//            SharedPreferenceManager.clearCartList()
-//            cartList.clear()
-//            binding.tvTotalQuantity.text = "0"
-//            mCartAdapter.setNewData(cartList)
+            SharedPreferenceManager.clearCartList()
+            cartList.clear()
+            binding.tvTotalQuantity.text = "0"
+            mCartAdapter.setNewData(cartList)
             dialog.cancel()
         }
         dialog.show()
@@ -186,11 +186,11 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
 
         val dialog = builder.create()
 
-        dialogBinding.tvAlertTitle.text = "ခြင်းထဲမှဖျက်ရန်"
+        dialogBinding.tvAlertTitle.text = "Order List ထဲမှဖျက်ရန်"
         dialogBinding.btnConfirm.text = "Confirm"
 
         val itemNameTextView = TextView(context)
-        itemNameTextView.text = "ခြင်းထဲမှပစ္စည်းကို ဖျက်ရန်သေချာပါသလား"
+        itemNameTextView.text = "Order List ထဲမှပစ္စည်းကို ဖျက်ရန်သေချာပါသလား"
         itemNameTextView.setTextColor(resources.getColor(R.color.black))
         itemNameTextView.textSize = 16f
         itemNameTextView.gravity = Gravity.CENTER

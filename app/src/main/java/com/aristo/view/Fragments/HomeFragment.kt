@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager2.widget.ViewPager2
+import com.aristo.Manager.SharedPreferenceManager
 import com.aristo.model.Category
 import com.aristo.databinding.FragmentHomeBinding
 import com.aristo.network.FirebaseApi
@@ -40,6 +41,7 @@ class HomeFragment : Fragment(), HomeCategoryListAdapter.HomeMainCategoryListene
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
 
         binding.progressBar.visibility = View.VISIBLE
         setUpAdapters()
