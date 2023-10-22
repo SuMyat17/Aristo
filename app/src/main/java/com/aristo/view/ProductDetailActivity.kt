@@ -1,5 +1,6 @@
 package com.aristo.view
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -83,6 +84,16 @@ class ProductDetailActivity : AppCompatActivity() {
             SharedPreferenceManager.saveCartList(cartList.toList())
             Toast.makeText(this, "Successfully added to cart", Toast.LENGTH_LONG).show()
             finish()
+        }
+
+        binding.ivProduct.setOnClickListener {
+
+            if (product?.imageURL != ""){
+                val intent = Intent(this, FullImageActivity::class.java)
+                intent.putExtra("image",product?.imageURL)
+                startActivity(intent)
+            }
+
         }
     }
 }
