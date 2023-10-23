@@ -2,7 +2,6 @@ package com.aristo.view.Fragments
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -14,15 +13,14 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aristo.Manager.*
-import com.aristo.Manager.Network.Firebase
 import com.aristo.R
+import com.aristo.data.CartListDataHolder
 import com.aristo.model.Category
 import com.aristo.databinding.FragmentCartBinding
 import com.aristo.databinding.OrderConfirmAlertBinding
 import com.aristo.model.Cart
 import com.aristo.network.FirebaseApi
 import com.aristo.view.adapters.CartAdapter
-import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class CartFragment : Fragment(), CartAdapter.CartItemListener {
 
@@ -48,9 +46,8 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
 
         setUpAdapters()
 
-        SharedPreferenceManager.initializeSharedPref(requireContext(), "cartList")
-        if (SharedPreferenceManager.getCartList().isNotEmpty()) {
-            cartList = ArrayList(SharedPreferenceManager.getCartList())
+        if (CartListDataHolder.instance.cartList?.isNotEmpty() == true) {
+            cartList = CartListDataHolder.instance.cartList as ArrayList<Cart>
         }
 
         firebaseApi.getMainCategoryData{ isSuccess, data ->
@@ -65,9 +62,11 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
                         }
                     }
                 }
-                SharedPreferenceManager.saveCartList(filteredCartList.toList())
+                CartListDataHolder.instance.cartList = filteredCartList
                 mCartAdapter.setNewData(filteredCartList)
-                binding.tvTotalQuantity.text = SharedPreferenceManager.getCartList().size.toString()
+                if (CartListDataHolder.instance.cartList?.isNotEmpty() == true) {
+                    binding.tvTotalQuantity.text = CartListDataHolder.instance.cartList!!.size.toString()
+                }
             } else {
                 Toast.makeText(requireContext(), "Can't retrieve data.", Toast.LENGTH_LONG).show()
             }
@@ -169,7 +168,7 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
 
         btnConfirm.setOnClickListener {
             sendMessageToViber(requireActivity(), message)
-            SharedPreferenceManager.clearCartList()
+            CartListDataHolder.instance.cartList?.clear()
             cartList.clear()
             binding.tvTotalQuantity.text = "0"
             mCartAdapter.setNewData(cartList)
@@ -201,10 +200,10 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
             if (itemToUpdate != null) {
                 cartList.remove(itemToUpdate)
             }
-            SharedPreferenceManager.saveCartList(cartList.toList())
+            CartListDataHolder.instance.cartList = cartList
             mCartAdapter.setNewData(cartList)
 
-            binding.tvTotalQuantity.text = SharedPreferenceManager.getCartList().size.toString()
+            binding.tvTotalQuantity.text = CartListDataHolder.instance.cartList?.size.toString()
             dialog.cancel()
         }
 
@@ -229,11 +228,15 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
     }
 
     override fun onTapAdd() {
-        binding.tvTotalQuantity.text = SharedPreferenceManager.getCartList().size.toString()
+        if (CartListDataHolder.instance.cartList?.isNotEmpty() == true) {
+            binding.tvTotalQuantity.text = CartListDataHolder.instance.cartList!!.size.toString()
+        }
     }
 
     override fun onTapMinus() {
-        binding.tvTotalQuantity.text = SharedPreferenceManager.getCartList().size.toString()
+        if (CartListDataHolder.instance.cartList?.isNotEmpty() == true) {
+            binding.tvTotalQuantity.text = CartListDataHolder.instance.cartList!!.size.toString()
+        }
     }
 
 }

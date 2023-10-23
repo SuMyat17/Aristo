@@ -6,8 +6,7 @@ import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.aristo.Manager.SharedPreferenceManager
-import com.aristo.Manager.SharedPreferenceManager.initializeSharedPref
+import com.aristo.data.CartListDataHolder
 import com.aristo.databinding.ViewHolderCartBinding
 import com.aristo.model.Cart
 import com.aristo.utils.processColorCode
@@ -27,8 +26,7 @@ class CartAdapter(private var listener: CartItemListener) : RecyclerView.Adapter
             }
             binding.tvProductName.text = cart.product?.title
 
-            initializeSharedPref(context, "cartList")
-            val cartList = SharedPreferenceManager.getCartList()
+            val cartList = CartListDataHolder.instance.cartList
 
             var quantity = cart.quantity
 
@@ -39,12 +37,12 @@ class CartAdapter(private var listener: CartItemListener) : RecyclerView.Adapter
                 binding.btnQuantity.text = quantity.toString()
                 binding.tvQuantity.text = getQuantityText(quantity, cart.product?.type)
 
-                cartList.forEach {
+                cartList?.forEach {
                     if (it.product?.id == cart.product?.id) {
                         it.quantity = quantity
                     }
                 }
-                SharedPreferenceManager.saveCartList(cartList.toList())
+                CartListDataHolder.instance.cartList = cartList as ArrayList<Cart>
                 listener.onTapAdd()
             }
 
@@ -56,12 +54,12 @@ class CartAdapter(private var listener: CartItemListener) : RecyclerView.Adapter
                 }
                 binding.btnQuantity.text = quantity.toString()
                 binding.tvQuantity.text = getQuantityText(quantity, cart.product?.type)
-                cartList.forEach {
+                cartList?.forEach {
                     if (it.product?.id == cart.product?.id) {
                         it.quantity = quantity
                     }
                 }
-                SharedPreferenceManager.saveCartList(cartList.toList())
+                CartListDataHolder.instance.cartList = cartList as ArrayList<Cart>
                 listener.onTapMinus()
             }
             binding.btnQuantity.text = quantity.toString()

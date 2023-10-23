@@ -7,8 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.aristo.Manager.SharedPreferenceManager
-import com.aristo.Manager.SharedPreferenceManager.initializeSharedPref
+import com.aristo.data.CartListDataHolder
 import com.aristo.utils.processColorCode
 import com.aristo.model.Category
 import com.aristo.databinding.ActivityProductDetailBinding
@@ -64,10 +63,9 @@ class ProductDetailActivity : AppCompatActivity() {
         }
 
         binding.btnAddToCart.setOnClickListener {
-            initializeSharedPref(this, "cartList")
             var cartList = arrayListOf<Cart>()
-            if (SharedPreferenceManager.getCartList().isNotEmpty()) {
-                cartList = ArrayList(SharedPreferenceManager.getCartList())
+            if (CartListDataHolder.instance.cartList?.isNotEmpty() == true) {
+                cartList = CartListDataHolder.instance.cartList as ArrayList<Cart>
             }
 
             product?.let{ product->
@@ -83,7 +81,7 @@ class ProductDetailActivity : AppCompatActivity() {
                     cartList.add(Cart(product, quantity))
                 }
             }
-            SharedPreferenceManager.saveCartList(cartList.toList())
+            CartListDataHolder.instance.cartList = cartList
             Toast.makeText(this, "Successfully added to cart", Toast.LENGTH_LONG).show()
             finish()
         }

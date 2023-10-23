@@ -10,9 +10,9 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager2.widget.ViewPager2
-import com.aristo.Manager.SharedPreferenceManager
 import com.aristo.model.Category
 import com.aristo.databinding.FragmentHomeBinding
+import com.aristo.model.NewProduct
 import com.aristo.network.FirebaseApi
 import com.aristo.view.MainCategoriesActivity
 import com.aristo.view.ProductDetailActivity
@@ -27,8 +27,6 @@ class HomeFragment : Fragment(), HomeCategoryListAdapter.HomeMainCategoryListene
     private lateinit var mCategoryAdapter: HomeCategoryListAdapter
 
     private var categoryList: List<Category> = listOf()
-    private var newItemList: ArrayList<Category> = arrayListOf()
-    private var isDotRemoved = false
 
     private var firebaseApi = FirebaseApi()
 
@@ -42,45 +40,53 @@ class HomeFragment : Fragment(), HomeCategoryListAdapter.HomeMainCategoryListene
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-
-        binding.progressBar.visibility = View.VISIBLE
+        binding.progressBarNewItem.visibility = View.VISIBLE
+        binding.progressBarMain.visibility = View.VISIBLE
         setUpAdapters()
 
         binding.btnSeeMore.setOnClickListener {
             val intent = Intent(activity, MainCategoriesActivity::class.java)
             startActivity(intent)
         }
-        firebaseApi.getMainCategoryData {isSuccess, data ->
-            newItemList.clear()
 
-            if (isSuccess) {
-                if (data != null) {
-                    categoryList = data
-                    mCategoryAdapter.setNewData(data)
-
-                    data.forEach { mainCategory ->
-                        findCategoryWithEmptySubcategories(mainCategory)
-                    }
-                    val sortedList = newItemList.sortedByDescending { it.timeStamp }
+        firebaseApi.getNewProducts { isSucccess, data ->
+            if (isSucccess) {
+                if (data?.isNotEmpty() == true) {
+                    val sortedList = data.sortedByDescending { it.timeStamp }
                     mNewItemsAdapter.setNewData(sortedList)
 
+                    binding.flNewItem.visibility = View.VISIBLE
+                    binding.tvNewItemTitle.visibility = View.VISIBLE
+                    binding.dotsIndicatorNewItems.visibility = View.VISIBLE
+                } else {
+                    binding.flNewItem.visibility = View.GONE
+                    binding.tvNewItemTitle.visibility = View.GONE
+                    binding.dotsIndicatorNewItems.visibility = View.GONE
                 }
             } else {
+                binding.flNewItem.visibility = View.GONE
+                binding.tvNewItemTitle.visibility = View.GONE
+                binding.dotsIndicatorNewItems.visibility = View.GONE
                 Toast.makeText(requireContext(), "Can't retrieve data.", Toast.LENGTH_LONG).show()
             }
-            binding.progressBar.visibility = View.GONE
+            binding.progressBarNewItem.visibility = View.GONE
         }
-    }
 
-    private fun findCategoryWithEmptySubcategories(rootCategory: Category) {
-        if (rootCategory.subCategories.isEmpty()) {
-            if (rootCategory.new) {
-                newItemList.add(rootCategory)
+        firebaseApi.getMainCategoryData { isSuccess, data ->
+            if (isSuccess) {
+                if (data?.isNotEmpty() == true) {
+                    categoryList = data
+                    mCategoryAdapter.setNewData(data)
+                } else {
+                    binding.rvCategoryList.visibility = View.GONE
+                    binding.titleMainCategory.visibility = View.GONE
+                }
+            } else {
+                binding.rvCategoryList.visibility = View.GONE
+                binding.titleMainCategory.visibility = View.GONE
+                Toast.makeText(requireContext(), "Can't retrieve data.", Toast.LENGTH_LONG).show()
             }
-        }
-
-        for (subCategory in rootCategory.subCategories.values) {
-            findCategoryWithEmptySubcategories(subCategory)
+            binding.progressBarMain.visibility = View.GONE
         }
     }
 
@@ -130,7 +136,9 @@ class HomeFragment : Fragment(), HomeCategoryListAdapter.HomeMainCategoryListene
         startActivity(intent)
     }
 
-    override fun onTapNewItem(category: Category) {
+    override fun onTapNewItem(newProduct: NewProduct) {
+        val category = Category(id = newProduct.id, title = newProduct.title, price = newProduct.price, imageURL = newProduct.imageURL, new = newProduct.new, colorCode = newProduct.colorCode, type = newProduct.type)
+
         val intent = Intent(context, ProductDetailActivity:: class.java)
         intent.putExtra("product", category)
         startActivity(intent)

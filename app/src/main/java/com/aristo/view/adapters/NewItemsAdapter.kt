@@ -13,6 +13,7 @@ import com.aristo.R
 import com.aristo.utils.processColorCode
 import com.aristo.model.Category
 import com.aristo.databinding.ViewHolderNewItemsBinding
+import com.aristo.model.NewProduct
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -21,11 +22,11 @@ import com.bumptech.glide.request.RequestOptions
 
 class NewItemsAdapter(private var listener: NewItemListener) : RecyclerView.Adapter<NewItemsAdapter.NewItemViewHolder>() {
 
-    private var dataList: List<Category> = listOf()
+    private var dataList: List<NewProduct> = listOf()
 
     class NewItemViewHolder(private val binding: ViewHolderNewItemsBinding, val context: Context, var listener: NewItemListener) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(category: Category) {
+        fun bind(category: NewProduct) {
             itemView.setOnClickListener {
                 listener.onTapNewItem(category)
             }
@@ -77,12 +78,12 @@ class NewItemsAdapter(private var listener: NewItemListener) : RecyclerView.Adap
         return dataList.size
     }
 
-    fun setNewData(categoryList: List<Category>) {
+    fun setNewData(categoryList: List<NewProduct>) {
         dataList = categoryList
         notifyDataSetChanged()
     }
 
     interface NewItemListener {
-        fun onTapNewItem(category: Category)
+        fun onTapNewItem(category: NewProduct)
     }
 }

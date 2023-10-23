@@ -5,11 +5,8 @@ import android.os.Handler
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.NavigationUI
-import com.aristo.Manager.SharedPreferenceManager
 import com.aristo.R
+import com.aristo.data.CartListDataHolder
 import com.aristo.databinding.ActivityMainBinding
 import com.aristo.view.Fragments.CartFragment
 import com.aristo.view.Fragments.HomeFragment
@@ -97,9 +94,9 @@ class MainActivity : AppCompatActivity() {
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed()
 
-            SharedPreferenceManager.initializeSharedPref(this, "cartList")
+//            SharedPreferenceManager.initializeSharedPref(this, "cartList")
 
-            SharedPreferenceManager.clearCartList()
+            CartListDataHolder.instance.cartList?.clear()
 
             return
         }
