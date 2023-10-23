@@ -29,15 +29,15 @@ class ChildCategoryListAdapter(private val context: Context) : RecyclerView.Adap
         fun bind(category: Category, context: Context, position: Int) {
             binding.tvFirstCategory.text = category.title
 
-            if (category.subCategories.isEmpty()) {
+//            if (category.subCategories.isEmpty()) {
                 if (category.new) {
                     binding.ivNew.visibility = View.VISIBLE
                 } else {
                     binding.ivNew.visibility = View.GONE
                 }
-            } else {
-                binding.ivNew.visibility = View.GONE
-            }
+//            } else {
+//                binding.ivNew.visibility = View.GONE
+//            }
 
             if (category.colorCode != "" && category.colorCode.count() in 7..10){
                 binding.progressBar.visibility = View.GONE

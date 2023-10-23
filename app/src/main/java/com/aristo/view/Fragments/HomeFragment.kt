@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.aristo.model.Category
 import com.aristo.databinding.FragmentHomeBinding
-import com.aristo.model.NewProduct
 import com.aristo.network.FirebaseApi
+import com.aristo.view.ChildCategoriesActivity
 import com.aristo.view.MainCategoriesActivity
 import com.aristo.view.ProductDetailActivity
 import com.aristo.view.adapters.HomeCategoryListAdapter
@@ -29,6 +29,8 @@ class HomeFragment : Fragment(), HomeCategoryListAdapter.HomeMainCategoryListene
     private var categoryList: List<Category> = listOf()
 
     private var firebaseApi = FirebaseApi()
+    private var selectedCategory : Category? = null
+    private var isFound = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -136,11 +138,38 @@ class HomeFragment : Fragment(), HomeCategoryListAdapter.HomeMainCategoryListene
         startActivity(intent)
     }
 
-    override fun onTapNewItem(newProduct: NewProduct) {
-        val category = Category(id = newProduct.id, title = newProduct.title, price = newProduct.price, imageURL = newProduct.imageURL, new = newProduct.new, colorCode = newProduct.colorCode, type = newProduct.type)
+    override fun onTapNewItem(category: Category) {
+//        val category = Category(id = newProduct.id, title = newProduct.title, price = newProduct.price, imageURL = newProduct.imageURL, new = newProduct.new, colorCode = newProduct.colorCode, type = newProduct.type)
 
-        val intent = Intent(context, ProductDetailActivity:: class.java)
-        intent.putExtra("product", category)
-        startActivity(intent)
+        isFound = false
+
+        if (category.subCategories.isEmpty()) {
+            val intent = Intent(context, ProductDetailActivity::class.java)
+            intent.putExtra("product", category)
+            startActivity(intent)
+        } else {
+            categoryList.forEach { mainCategory ->
+                if(!isFound) {
+                    findSelectedCategory(mainCategory, category)
+                }
+            }
+            selectedCategory?.let {
+                val intent = Intent(context, ChildCategoriesActivity:: class.java)
+                intent.putExtra("childCategoriesList", selectedCategory)
+                startActivity(intent)
+            }
+        }
     }
+
+    private fun findSelectedCategory(rootCategory: Category, currentCategory: Category?) {
+        if (rootCategory.id == currentCategory?.id) {
+            isFound = true
+            selectedCategory = rootCategory
+        }
+
+        for (subCategory in rootCategory.subCategories.values) {
+            findSelectedCategory(subCategory, currentCategory)
+        }
+    }
+
 }

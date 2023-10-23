@@ -1,7 +1,6 @@
 package com.aristo.network
 
 import com.aristo.model.Category
-import com.aristo.model.NewProduct
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -41,17 +40,17 @@ class FirebaseApi {
     }
 
 
-    fun getNewProducts(completionHandler: (Boolean, ArrayList<NewProduct>?) -> Unit) {
+    fun getNewProducts(completionHandler: (Boolean, ArrayList<Category>?) -> Unit) {
 
         categoriesRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
 
                 val categoriesSnapshot = snapshot.child("NewProducts")
-                val newProductList: ArrayList<NewProduct> = ArrayList()
+                val newProductList: ArrayList<Category> = ArrayList()
 
                 for (categorySnapshot in categoriesSnapshot.children) {
 
-                    val newProducts = categorySnapshot.getValue(NewProduct::class.java)
+                    val newProducts = categorySnapshot.getValue(Category::class.java)
                     newProducts?.let {
                         newProductList.add(it)
                     }
