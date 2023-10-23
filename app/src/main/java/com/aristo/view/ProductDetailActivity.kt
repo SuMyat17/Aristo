@@ -37,8 +37,10 @@ class ProductDetailActivity : AppCompatActivity() {
 
         if (product?.colorCode != "" && product?.colorCode?.count() in 7..10){
             binding.ivProduct.foreground = ColorDrawable(Color.parseColor(processColorCode(product!!.colorCode)))
+            binding.ivZoom.visibility = View.GONE
         } else if (product?.imageURL != "") {
             binding.ivProduct.foreground = null
+            binding.ivZoom.visibility = View.VISIBLE
             Glide.with(this).load(product?.imageURL).into(binding.ivProduct)
         }
         binding.tvType.text = product?.type

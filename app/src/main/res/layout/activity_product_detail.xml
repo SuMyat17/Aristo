@@ -59,14 +59,31 @@
                 android:layout_gravity="center"
                 app:cardCornerRadius="@dimen/margin_medium">
 
-                <ImageView
-                    android:id="@+id/ivProduct"
-                    android:layout_width="wrap_content"
-                    android:layout_height="250dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_placeholder" />
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/ivProduct"
+                        android:layout_width="wrap_content"
+                        android:layout_height="250dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_placeholder" />
+
+                    <ImageView
+                        android:id="@+id/ivZoom"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:alpha="0.7"
+                        android:visibility="gone"
+                        android:src="@drawable/ic_zoom"
+                        android:layout_gravity="bottom|end"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginEnd="10dp" />
+                </FrameLayout>
 
             </androidx.cardview.widget.CardView>
+
 
             <View
                 android:layout_width="match_parent"
