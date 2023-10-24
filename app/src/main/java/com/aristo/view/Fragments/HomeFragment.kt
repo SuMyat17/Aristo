@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.aristo.model.Category
 import com.aristo.databinding.FragmentHomeBinding
+import com.aristo.model.NewCategory
 import com.aristo.network.FirebaseApi
 import com.aristo.view.ChildCategoriesActivity
 import com.aristo.view.MainCategoriesActivity
@@ -27,10 +28,13 @@ class HomeFragment : Fragment(), HomeCategoryListAdapter.HomeMainCategoryListene
     private lateinit var mCategoryAdapter: HomeCategoryListAdapter
 
     private var categoryList: List<Category> = listOf()
+    private var sortedList: List<NewCategory> = arrayListOf()
+    private var newCategoryList: ArrayList<Category> = arrayListOf()
 
     private var firebaseApi = FirebaseApi()
     private var selectedCategory : Category? = null
     private var isFound = false
+    private var isFoundAll = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,11 +55,43 @@ class HomeFragment : Fragment(), HomeCategoryListAdapter.HomeMainCategoryListene
             startActivity(intent)
         }
 
-        firebaseApi.getNewProducts { isSucccess, data ->
-            if (isSucccess) {
+        firebaseApi.getMainCategoryData { isSuccess, data ->
+            if (isSuccess) {
+                newCategoryList.clear()
                 if (data?.isNotEmpty() == true) {
-                    val sortedList = data.sortedByDescending { it.timeStamp }
-                    mNewItemsAdapter.setNewData(sortedList)
+                    categoryList = data
+                    mCategoryAdapter.setNewData(data)
+                } else {
+                    binding.rvCategoryList.visibility = View.GONE
+                    binding.titleMainCategory.visibility = View.GONE
+                }
+            } else {
+                binding.rvCategoryList.visibility = View.GONE
+                binding.titleMainCategory.visibility = View.GONE
+                Toast.makeText(requireContext(), "Can't retrieve data.", Toast.LENGTH_LONG).show()
+            }
+            binding.progressBarMain.visibility = View.GONE
+        }
+
+        firebaseApi.getNewProducts { isSucccess, data ->
+
+            if (isSucccess) {
+                sortedList = arrayListOf()
+                newCategoryList.clear()
+                if (data?.isNotEmpty() == true) {
+                    sortedList = data.sortedByDescending { it.timeStamp }
+
+                    // new item list
+                    sortedList.forEach {  newCategory ->
+                        isFoundAll = false
+                        categoryList.forEach {  allCategory ->
+                            if (!isFoundAll) {
+                                findAllNewCategories(allCategory, newCategory)
+                            }
+                        }
+                    }
+                    mNewItemsAdapter.setNewData(newCategoryList)
+
 
                     binding.flNewItem.visibility = View.VISIBLE
                     binding.tvNewItemTitle.visibility = View.VISIBLE
@@ -74,22 +110,6 @@ class HomeFragment : Fragment(), HomeCategoryListAdapter.HomeMainCategoryListene
             binding.progressBarNewItem.visibility = View.GONE
         }
 
-        firebaseApi.getMainCategoryData { isSuccess, data ->
-            if (isSuccess) {
-                if (data?.isNotEmpty() == true) {
-                    categoryList = data
-                    mCategoryAdapter.setNewData(data)
-                } else {
-                    binding.rvCategoryList.visibility = View.GONE
-                    binding.titleMainCategory.visibility = View.GONE
-                }
-            } else {
-                binding.rvCategoryList.visibility = View.GONE
-                binding.titleMainCategory.visibility = View.GONE
-                Toast.makeText(requireContext(), "Can't retrieve data.", Toast.LENGTH_LONG).show()
-            }
-            binding.progressBarMain.visibility = View.GONE
-        }
     }
 
     private fun setUpAdapters() {
@@ -169,6 +189,18 @@ class HomeFragment : Fragment(), HomeCategoryListAdapter.HomeMainCategoryListene
 
         for (subCategory in rootCategory.subCategories.values) {
             findSelectedCategory(subCategory, currentCategory)
+        }
+    }
+
+
+    private fun findAllNewCategories(rootCategory: Category, newCategory: NewCategory?) {
+        if (rootCategory.id == newCategory?.id) {
+            isFoundAll = true
+            newCategoryList.add(rootCategory)
+        }
+
+        for (subCategory in rootCategory.subCategories.values) {
+            findAllNewCategories(subCategory, newCategory)
         }
     }
 
