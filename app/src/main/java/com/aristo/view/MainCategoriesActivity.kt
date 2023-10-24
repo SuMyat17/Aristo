@@ -11,6 +11,7 @@ import com.aristo.model.Category
 import com.aristo.view.adapters.ChildCategoryListAdapter
 import com.aristo.view.adapters.MainCategoryListAdapter
 import com.aristo.databinding.ActivityMainCategoriesBinding
+import com.aristo.model.NewCategory
 import com.aristo.network.FirebaseApi
 import com.aristo.viewModel.CategoriesViewModel
 
@@ -25,6 +26,7 @@ class MainCategoriesActivity : AppCompatActivity(), MainCategoryListAdapter.Main
     private lateinit var mSubCategoryAdapter: ChildCategoryListAdapter
 
     private var categoryList: List<Category> = listOf()
+    private var newItemsList: List<NewCategory> = listOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +41,10 @@ class MainCategoriesActivity : AppCompatActivity(), MainCategoryListAdapter.Main
         }
 
         setRecyclerViewAdapter()
+
+        firebaseApi.getNewProducts { isSuccess, data ->
+            data?.let{newItemsList = it}
+        }
 
         firebaseApi.getMainCategoryData {isSuccess, data ->
 

@@ -13,6 +13,7 @@ import com.aristo.R
 import com.aristo.utils.processColorCode
 import com.aristo.model.Category
 import com.aristo.databinding.ViewHolderCategoryListBinding
+import com.aristo.network.FirebaseApi
 import com.aristo.view.ChildCategoriesActivity
 import com.aristo.view.ProductDetailActivity
 import com.bumptech.glide.Glide
@@ -29,15 +30,21 @@ class ChildCategoryListAdapter(private val context: Context) : RecyclerView.Adap
         fun bind(category: Category, context: Context, position: Int) {
             binding.tvFirstCategory.text = category.title
 
-//            if (category.subCategories.isEmpty()) {
-                if (category.new) {
-                    binding.ivNew.visibility = View.VISIBLE
-                } else {
-                    binding.ivNew.visibility = View.GONE
+            FirebaseApi().getNewProducts { success, data ->
+                if (success) {
+                    if (data != null) {
+                        for (it in data) {
+                            if (category.id == it.id) {
+                                binding.ivNew.visibility = View.VISIBLE
+                                break
+                            } else {
+                                binding.ivNew.visibility = View.GONE
+                            }
+                        }
+                    }
                 }
-//            } else {
-//                binding.ivNew.visibility = View.GONE
-//            }
+            }
+
 
             if (category.colorCode != "" && category.colorCode.count() in 7..10){
                 binding.progressBar.visibility = View.GONE
