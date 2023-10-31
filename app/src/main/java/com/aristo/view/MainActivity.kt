@@ -1,8 +1,10 @@
 package com.aristo.view
 
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.aristo.R
@@ -11,6 +13,10 @@ import com.aristo.databinding.ActivityMainBinding
 import com.aristo.view.Fragments.CartFragment
 import com.aristo.view.Fragments.HomeFragment
 import com.aristo.view.Fragments.InformationFragment
+import com.bumptech.glide.Glide
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.microsoft.appcenter.AppCenter
@@ -18,6 +24,8 @@ import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
 
 const val TOPIC = "/topics/myTopic2"
+
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding
@@ -28,6 +36,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        rememberUser()
 
         when (intent.getStringExtra("fragmentToOpen")) {
             "Cart" -> {
@@ -107,6 +117,30 @@ class MainActivity : AppCompatActivity() {
         Handler().postDelayed({
             doubleBackToExitPressedOnce = false
         }, 2000) // Delay for 2 seconds to reset the double tap flag
+    }
+
+    fun rememberUser(){
+
+        var auth: FirebaseAuth = Firebase.auth
+
+        if (auth.currentUser == null){
+
+            var email = "tunlinaung.tla7@gmail.com"
+            var password = "Superst@r7"
+
+            auth.signInWithEmailAndPassword(email,password).addOnCompleteListener { task ->
+
+                if (task.isSuccessful){
+
+
+                }
+                else{
+                    //Toast.makeText(context,"${task.exception!!.localizedMessage.toString()}",Toast.LENGTH_LONG).show()
+
+                }
+
+            }
+        }
     }
 
 }

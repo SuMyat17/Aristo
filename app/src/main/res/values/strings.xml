@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Aristo</string>
+    <string name="app_name">Empress</string>
     <string name="lbl_home">Home</string>
     <string name="lbl_information">Information</string>
     <string name="lbl_cart">Cart</string>
@@ -11,4 +11,5 @@
     <string name="aristo_viber_ph">+959981570065</string>
     <string name="aristo_email">aristotech.team@gmail.com</string>
     <string name="aristo_fb">Aristo</string>
+    <string name="company_name">Empress</string>
 </resources>
