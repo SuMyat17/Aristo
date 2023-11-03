@@ -1,6 +1,8 @@
 package com.aristo.view.adapters
 
 import android.content.Context
+import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
@@ -24,6 +26,7 @@ class CartAdapter(private var listener: CartItemListener) : RecyclerView.Adapter
                 binding.ivProductImage.foreground = null
                 Glide.with(context).load(cart.product?.imageURL).into(binding.ivProductImage)
             }
+
             binding.tvProductName.text = cart.product?.title
 
             val cartList = CartListDataHolder.instance.cartList
@@ -37,12 +40,12 @@ class CartAdapter(private var listener: CartItemListener) : RecyclerView.Adapter
                 binding.btnQuantity.text = quantity.toString()
                 binding.tvQuantity.text = getQuantityText(quantity, cart.product?.type)
 
-                cartList?.forEach {
+                cartList.forEach {
                     if (it.product?.id == cart.product?.id) {
                         it.quantity = quantity
                     }
                 }
-                CartListDataHolder.instance.cartList = cartList as ArrayList<Cart>
+                CartListDataHolder.instance.cartList = cartList
                 listener.onTapAdd()
             }
 
@@ -54,12 +57,12 @@ class CartAdapter(private var listener: CartItemListener) : RecyclerView.Adapter
                 }
                 binding.btnQuantity.text = quantity.toString()
                 binding.tvQuantity.text = getQuantityText(quantity, cart.product?.type)
-                cartList?.forEach {
+                cartList.forEach {
                     if (it.product?.id == cart.product?.id) {
                         it.quantity = quantity
                     }
                 }
-                CartListDataHolder.instance.cartList = cartList as ArrayList<Cart>
+                CartListDataHolder.instance.cartList = cartList
                 listener.onTapMinus()
             }
             binding.btnQuantity.text = quantity.toString()

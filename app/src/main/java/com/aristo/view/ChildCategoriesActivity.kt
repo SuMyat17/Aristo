@@ -3,7 +3,9 @@ package com.aristo.view
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
+import com.aristo.data.CartListDataHolder
 import com.aristo.model.Category
 import com.aristo.view.adapters.ChildCategoryListAdapter
 import com.aristo.databinding.ActivityChildCategoriesBinding
@@ -24,7 +26,20 @@ class ChildCategoriesActivity : AppCompatActivity() {
         binding.ibBack.setOnClickListener {
             finish()
         }
+    }
 
+    override fun onResume() {
+        super.onResume()
+        showBadge()
+    }
+
+    private fun showBadge() {
+        if (CartListDataHolder.instance.cartList.size != 0) {
+            binding.tvNotificationBadge.visibility = View.VISIBLE
+            binding.tvNotificationBadge.text = CartListDataHolder.instance.cartList.size.toString()
+        } else {
+            binding.tvNotificationBadge.visibility = View.GONE
+        }
     }
 
     private fun setRecyclerViewAdapter(){

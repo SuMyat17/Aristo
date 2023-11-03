@@ -16,10 +16,11 @@ import com.aristo.Manager.*
 import com.aristo.R
 import com.aristo.data.CartListDataHolder
 import com.aristo.model.Category
-import com.aristo.databinding.FragmentCartBinding
-import com.aristo.databinding.OrderConfirmAlertBinding
+import com.aristo.databinding.*
 import com.aristo.model.Cart
 import com.aristo.network.FirebaseApi
+import com.aristo.utils.*
+import com.aristo.view.MainActivity
 import com.aristo.view.adapters.CartAdapter
 
 class CartFragment : Fragment(), CartAdapter.CartItemListener {
@@ -46,8 +47,8 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
 
         setUpAdapters()
 
-        if (CartListDataHolder.instance.cartList?.isNotEmpty() == true) {
-            cartList = CartListDataHolder.instance.cartList as ArrayList<Cart>
+        if (CartListDataHolder.instance.cartList.isNotEmpty()) {
+            cartList = CartListDataHolder.instance.cartList
         }
 
         firebaseApi.getMainCategoryData{ isSuccess, data ->
@@ -64,8 +65,8 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
                 }
                 CartListDataHolder.instance.cartList = filteredCartList
                 mCartAdapter.setNewData(filteredCartList)
-                if (CartListDataHolder.instance.cartList?.isNotEmpty() == true) {
-                    binding.tvTotalQuantity.text = CartListDataHolder.instance.cartList!!.size.toString()
+                if (CartListDataHolder.instance.cartList.isNotEmpty()) {
+                    binding.tvTotalQuantity.text = CartListDataHolder.instance.cartList.size.toString()
                 }
             } else {
                 Toast.makeText(requireContext(), "Can't retrieve data.", Toast.LENGTH_LONG).show()
@@ -104,6 +105,7 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
         binding.rvCart.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
     }
 
+
     fun showOrderConfirmAlert() {
         val builder = AlertDialog.Builder(requireContext())
         val customView = LayoutInflater.from(requireContext())
@@ -117,17 +119,10 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
 
         val dialog = builder.create()
 
-        var message = ""
+        var message = "Order List\n===========\n"
         cartList.forEach {
+
             message += "${it.product?.title} ${it.quantity} ${it.product?.type} \n"
-//            it.product?.type?.let { type ->
-//                when {
-//                    type.contains("ထည်") -> message += " ထည် \n"
-//                    type.contains("လိပ်") -> message += " လိပ် \n"
-//                    type.contains("စီး") -> message += " စီး \n"
-//                    type.contains("ကွင်း") -> message += " ကွင်း \n"
-//                }
-//            }
 
             val itemNameTextView = TextView(context)
             itemNameTextView.text = "${it.product?.title} \n"
@@ -139,15 +134,9 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
             params1.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1.5f)
             itemNameTextView.layoutParams = params1
             val itemQuantityTextView = TextView(context)
+
             var text = "${it.quantity} ${it.product?.type}"
-//            it.product?.type?.let { type ->
-//                when {
-//                    type.contains("ထည်") -> text += " ထည် \n"
-//                    type.contains("လိပ်") -> text += " လိပ် \n"
-//                    type.contains("စီး") -> text += " စီး \n"
-//                    type.contains("ကွင်း") -> text += " ကွင်း \n"
-//                }
-//            }
+
             itemQuantityTextView.text = text
             itemQuantityTextView.setTextColor(resources.getColor(R.color.black))
             itemQuantityTextView.textSize = 16f
@@ -168,10 +157,13 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
 
         btnConfirm.setOnClickListener {
             sendMessageToViber(requireActivity(), message)
-            CartListDataHolder.instance.cartList?.clear()
+
+            CartListDataHolder.instance.cartList.clear()
             cartList.clear()
             binding.tvTotalQuantity.text = "0"
             mCartAdapter.setNewData(cartList)
+            val mainActivity = activity as MainActivity
+            mainActivity.showBadge()
             dialog.cancel()
         }
         dialog.show()
@@ -203,7 +195,10 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
             CartListDataHolder.instance.cartList = cartList
             mCartAdapter.setNewData(cartList)
 
-            binding.tvTotalQuantity.text = CartListDataHolder.instance.cartList?.size.toString()
+            binding.tvTotalQuantity.text = CartListDataHolder.instance.cartList.size.toString()
+
+            val mainActivity = activity as MainActivity
+            mainActivity.showBadge()
             dialog.cancel()
         }
 
@@ -228,14 +223,15 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
     }
 
     override fun onTapAdd() {
-        if (CartListDataHolder.instance.cartList?.isNotEmpty() == true) {
-            binding.tvTotalQuantity.text = CartListDataHolder.instance.cartList!!.size.toString()
+        if (CartListDataHolder.instance.cartList.isNotEmpty()) {
+            binding.tvTotalQuantity.text = CartListDataHolder.instance.cartList.size.toString()
         }
     }
 
     override fun onTapMinus() {
-        if (CartListDataHolder.instance.cartList?.isNotEmpty() == true) {
-            binding.tvTotalQuantity.text = CartListDataHolder.instance.cartList!!.size.toString()
+        if (CartListDataHolder.instance.cartList.isNotEmpty()) {
+            binding.tvTotalQuantity.text = CartListDataHolder.instance.cartList.size.toString()
+
         }
     }
 

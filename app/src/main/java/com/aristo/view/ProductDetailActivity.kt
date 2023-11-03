@@ -82,7 +82,6 @@ class ProductDetailActivity : AppCompatActivity() {
                 }
             }
             CartListDataHolder.instance.cartList = cartList
-            Toast.makeText(this, "Successfully added to cart", Toast.LENGTH_LONG).show()
             finish()
         }
 

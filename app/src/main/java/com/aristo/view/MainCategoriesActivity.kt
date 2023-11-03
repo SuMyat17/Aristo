@@ -3,10 +3,14 @@ package com.aristo.view
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.aristo.R
+import com.aristo.data.CartListDataHolder
 import com.aristo.model.Category
 import com.aristo.view.adapters.ChildCategoryListAdapter
 import com.aristo.view.adapters.MainCategoryListAdapter
@@ -14,6 +18,7 @@ import com.aristo.databinding.ActivityMainCategoriesBinding
 import com.aristo.model.NewCategory
 import com.aristo.network.FirebaseApi
 import com.aristo.viewModel.CategoriesViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
 
 class MainCategoriesActivity : AppCompatActivity(), MainCategoryListAdapter.MainCategoriesRecyclerViewListener {
 
@@ -65,6 +70,20 @@ class MainCategoriesActivity : AppCompatActivity(), MainCategoryListAdapter.Main
             intent.putExtra("fragmentToOpen", "Cart")
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(intent)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        showBadge()
+    }
+
+    private fun showBadge() {
+        if (CartListDataHolder.instance.cartList.size != 0) {
+            binding.tvNotificationBadge.visibility = View.VISIBLE
+            binding.tvNotificationBadge.text = CartListDataHolder.instance.cartList.size.toString()
+        } else {
+            binding.tvNotificationBadge.visibility = View.GONE
         }
     }
 

@@ -1,10 +1,11 @@
 package com.aristo.view
 
-import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.aristo.R
@@ -13,11 +14,11 @@ import com.aristo.databinding.ActivityMainBinding
 import com.aristo.view.Fragments.CartFragment
 import com.aristo.view.Fragments.HomeFragment
 import com.aristo.view.Fragments.InformationFragment
-import com.bumptech.glide.Glide
-import com.google.firebase.Firebase
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.auth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
@@ -25,17 +26,24 @@ import com.microsoft.appcenter.crashes.Crashes
 
 const val TOPIC = "/topics/myTopic2"
 
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding
     private var doubleBackToExitPressedOnce = false
 
+    lateinit var itemView : BottomNavigationItemView
+    lateinit var badge: View
+    lateinit var text: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        itemView = binding.bottomNav.findViewById(R.id.action_cart)
+        badge = LayoutInflater.from(this).inflate(R.layout.badge_text, binding.bottomNav, false)
+        text = badge.findViewById(R.id.tv_notification_badge)
+        itemView.addView(badge)
 
         rememberUser()
 
@@ -81,6 +89,20 @@ class MainActivity : AppCompatActivity() {
             }
 
         FirebaseMessaging.getInstance().subscribeToTopic(TOPIC)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        showBadge()
+    }
+
+    fun showBadge() {
+        if (CartListDataHolder.instance.cartList.size == 0) {
+            text.visibility = View.GONE
+        } else {
+            text.visibility = View.VISIBLE
+            text.text = CartListDataHolder.instance.cartList.size.toString()
+        }
     }
 
     fun addUserDeviceToken(token : String){
