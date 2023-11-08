@@ -3,6 +3,7 @@ package com.aristo.view.Fragments
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +20,10 @@ import com.aristo.view.MainCategoriesActivity
 import com.aristo.view.ProductDetailActivity
 import com.aristo.view.adapters.HomeCategoryListAdapter
 import com.aristo.view.adapters.NewItemsAdapter
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.messaging.FirebaseMessaging
 
+const val TOPIC = "/topics/myTopic2"
 class HomeFragment : Fragment(), HomeCategoryListAdapter.HomeMainCategoryListener, NewItemsAdapter.NewItemListener {
 
     private lateinit var binding: FragmentHomeBinding
@@ -55,6 +59,55 @@ class HomeFragment : Fragment(), HomeCategoryListAdapter.HomeMainCategoryListene
             startActivity(intent)
         }
 
+        if (firebaseApi.auth.currentUser == null){
+            firebaseApi.signInUser {success ->
+                if (success){
+                    fetchDatas()
+                    setDeviceToken()
+                }
+            }
+        }
+        else{
+            fetchDatas()
+            setDeviceToken()
+        }
+
+    }
+
+    private fun setDeviceToken(){
+        FirebaseMessaging.getInstance().token
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val token = task.result
+                    // Handle the token here (e.g., send it to your server)
+                    addUserDeviceToken(token)
+                    Log.d("FCM Token", token)
+                } else {
+                    Log.e("FCM Token", "Failed to get FCM token")
+                }
+            }
+
+        FirebaseMessaging.getInstance().subscribeToTopic(TOPIC)
+    }
+
+    fun addUserDeviceToken(token : String){
+        val databaseReference = FirebaseDatabase.getInstance().getReference("Tokens")
+
+        // Check if the key is not null before adding the data
+        databaseReference.child(token).child("token").setValue(token)
+            .addOnSuccessListener {
+                // Data successfully added to the database
+                Log.d("Firebase", "Token added successfully")
+            }
+            .addOnFailureListener { e ->
+                // Failed to add token to the database
+                Log.w("Firebase", "Error adding token to database", e)
+            }
+
+
+    }
+
+    private fun fetchDatas(){
         firebaseApi.getMainCategoryData { isSuccess, data ->
             if (isSuccess) {
                 newCategoryList.clear()
@@ -109,7 +162,6 @@ class HomeFragment : Fragment(), HomeCategoryListAdapter.HomeMainCategoryListene
             }
             binding.progressBarNewItem.visibility = View.GONE
         }
-
     }
 
     private fun setUpAdapters() {

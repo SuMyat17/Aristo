@@ -2,6 +2,8 @@ package com.aristo.network
 
 import com.aristo.model.Category
 import com.aristo.model.NewCategory
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -14,6 +16,7 @@ class FirebaseApi {
 
     val database = FirebaseDatabase.getInstance()
     val categoriesRef: DatabaseReference = database.getReference("Products")
+    val auth: FirebaseAuth = Firebase.auth
 
     fun getMainCategoryData(completionHandler: (Boolean, ArrayList<Category>?) -> Unit) {
 
@@ -66,5 +69,25 @@ class FirebaseApi {
         })
     }
 
+    fun signInUser(completionHandler: (Boolean) -> Unit){
+
+        if (auth.currentUser == null){
+
+            var email = "tunlinaung.tla7@gmail.com"
+            var password = "Superst@r7"
+
+            auth.signInWithEmailAndPassword(email,password).addOnCompleteListener { task ->
+
+                if (task.isSuccessful){
+                    completionHandler(true)
+                }
+                else{
+                    //Toast.makeText(context,"${task.exception!!.localizedMessage.toString()}",Toast.LENGTH_LONG).show()
+                    completionHandler(false)
+                }
+
+            }
+        }
+    }
 
 }

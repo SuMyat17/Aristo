@@ -24,7 +24,6 @@ import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
 
-const val TOPIC = "/topics/myTopic2"
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         text = badge.findViewById(R.id.tv_notification_badge)
         itemView.addView(badge)
 
-        rememberUser()
+        //rememberUser()
 
         when (intent.getStringExtra("fragmentToOpen")) {
             "Cart" -> {
@@ -76,19 +75,7 @@ class MainActivity : AppCompatActivity() {
             Analytics::class.java, Crashes::class.java
         )
 
-        FirebaseMessaging.getInstance().token
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val token = task.result
-                    // Handle the token here (e.g., send it to your server)
-                    addUserDeviceToken(token)
-                    Log.d("FCM Token", token)
-                } else {
-                    Log.e("FCM Token", "Failed to get FCM token")
-                }
-            }
 
-        FirebaseMessaging.getInstance().subscribeToTopic(TOPIC)
     }
 
     override fun onResume() {
@@ -105,22 +92,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun addUserDeviceToken(token : String){
-        val databaseReference = FirebaseDatabase.getInstance().getReference("Tokens")
 
-        // Check if the key is not null before adding the data
-        databaseReference.child(token).child("token").setValue(token)
-            .addOnSuccessListener {
-                // Data successfully added to the database
-                Log.d("Firebase", "Token added successfully")
-            }
-            .addOnFailureListener { e ->
-                // Failed to add token to the database
-                Log.w("Firebase", "Error adding token to database", e)
-            }
-
-
-    }
 
     override fun onBackPressed() {
         if (doubleBackToExitPressedOnce) {
@@ -141,28 +113,6 @@ class MainActivity : AppCompatActivity() {
         }, 2000) // Delay for 2 seconds to reset the double tap flag
     }
 
-    fun rememberUser(){
 
-        var auth: FirebaseAuth = Firebase.auth
-
-        if (auth.currentUser == null){
-
-            var email = "tunlinaung.tla7@gmail.com"
-            var password = "Superst@r7"
-
-            auth.signInWithEmailAndPassword(email,password).addOnCompleteListener { task ->
-
-                if (task.isSuccessful){
-
-
-                }
-                else{
-                    //Toast.makeText(context,"${task.exception!!.localizedMessage.toString()}",Toast.LENGTH_LONG).show()
-
-                }
-
-            }
-        }
-    }
 
 }
