@@ -122,7 +122,7 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
         var message = "Order List\n===========\n"
         cartList.forEach {
 
-            message += "${it.product?.title} ${it.quantity} ${it.product?.type} \n"
+            message += "${it.product?.title}  (${it.quantity}) ${it.product?.type} \n"
 
             val itemNameTextView = TextView(context)
             itemNameTextView.text = "${it.product?.title} \n"

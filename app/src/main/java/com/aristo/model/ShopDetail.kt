@@ -6,7 +6,7 @@ data class ShopDetail(
     var address: String = "",
     val companyName: String ="",
     val fbPage: String ="",
-    var image: String = "",
+    val fbPageLink: String = "",
     val phone: String = "",
     val viber: String = "",
 ): Serializable {

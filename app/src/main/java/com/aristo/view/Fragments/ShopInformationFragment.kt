@@ -20,6 +20,7 @@ import com.aristo.databinding.FragmentShopInformationBinding
 class ShopInformationFragment : Fragment() {
 
     private lateinit var binding: FragmentShopInformationBinding
+    var fbPageLink : String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +45,9 @@ class ShopInformationFragment : Fragment() {
         retrieveShopDatas()
 
         binding.tvFacebook.setOnClickListener {
-            openFacebookApp(requireActivity(),"https://www.facebook.com/appleauthorizedreseller?mibextid=ZbWKwL")
+
+
+            openFacebookApp(requireActivity(), fbPageLink)
         }
 
         binding.tvPhoneNo.setOnClickListener {
@@ -105,6 +108,11 @@ class ShopInformationFragment : Fragment() {
                         binding.facebookLayout.visibility = View.VISIBLE
                         binding.tvFacebook.setText(data.fbPage)
                     }
+
+                    if (data.fbPageLink != ""){
+                        fbPageLink = data.fbPageLink
+                    }
+
 
                     setUnderLine()
                 }
