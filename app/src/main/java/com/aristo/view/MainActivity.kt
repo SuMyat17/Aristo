@@ -14,6 +14,7 @@ import com.aristo.databinding.ActivityMainBinding
 import com.aristo.view.Fragments.CartFragment
 import com.aristo.view.Fragments.HomeFragment
 import com.aristo.view.Fragments.InformationFragment
+import com.aristo.view.Fragments.ProfileFragment
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -51,10 +52,6 @@ class MainActivity : AppCompatActivity() {
                 supportFragmentManager.beginTransaction().replace(R.id.fl_container, CartFragment()).commit()
                 binding.bottomNav.selectedItemId = R.id.action_cart
             }
-            "Info" -> {
-                supportFragmentManager.beginTransaction().replace(R.id.fl_container, InformationFragment()).commit()
-                binding.bottomNav.selectedItemId = R.id.action_information
-            }
             else -> {
                 supportFragmentManager.beginTransaction().replace(R.id.fl_container, HomeFragment()).commit()
                 binding.bottomNav.selectedItemId = R.id.action_home
@@ -66,6 +63,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.action_home -> supportFragmentManager.beginTransaction().replace(R.id.fl_container, HomeFragment()).commit()
                 R.id.action_cart -> supportFragmentManager.beginTransaction().replace(R.id.fl_container, CartFragment()).commit()
                 R.id.action_information -> supportFragmentManager.beginTransaction().replace(R.id.fl_container, InformationFragment()).commit()
+                R.id.action_profile -> supportFragmentManager.beginTransaction().replace(R.id.fl_container, ProfileFragment()).commit()
             }
             true
         }
@@ -74,7 +72,6 @@ class MainActivity : AppCompatActivity() {
             application, "9e748b4f-85ad-454e-a939-60a8889e7808\"",
             Analytics::class.java, Crashes::class.java
         )
-
 
     }
 

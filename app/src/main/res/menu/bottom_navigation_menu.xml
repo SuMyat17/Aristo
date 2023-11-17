@@ -17,4 +17,7 @@
         android:icon="@drawable/select_bottom_nav_info"
         android:title="@string/lbl_information"/>
 
+    <item android:id="@+id/action_profile"
+        android:icon="@drawable/select_bottom_nav_profile"
+        android:title="Profile"/>
 </menu>

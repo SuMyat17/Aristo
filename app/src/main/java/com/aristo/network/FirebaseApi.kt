@@ -1,6 +1,7 @@
 package com.aristo.network
 
 import com.aristo.model.Category
+import com.aristo.model.Customer
 import com.aristo.model.NewCategory
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -85,9 +86,37 @@ class FirebaseApi {
                     //Toast.makeText(context,"${task.exception!!.localizedMessage.toString()}",Toast.LENGTH_LONG).show()
                     completionHandler(false)
                 }
-
             }
         }
     }
 
+    fun signUpUser(customer: Customer, completionHandler: (Boolean) -> Unit) {
+        database.reference.child("Users").child(customer.phone).setValue(customer)
+            .addOnCompleteListener {
+                if (it.isSuccessful) { completionHandler(true) }
+                else { completionHandler(false) }
+            }
+    }
+
+    fun updateUser(customer: Customer, completionHandler: (Boolean) -> Unit) {
+        database.reference.child("Users").child(customer.phone).updateChildren(mapOf("userName" to customer.userName, "address" to customer.address)).addOnCompleteListener {
+            if (it.isSuccessful) { completionHandler(true) }
+            else { completionHandler(false) }
+        }
+    }
+
+    fun getUser(phoneNumber: String, completionHandler: (String?, Customer?) -> Unit) {
+        database.reference.child("Users").child(phoneNumber).addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    val user = snapshot.getValue(Customer::class.java)
+                    if (user != null) { completionHandler(null, user) }
+                    else { completionHandler("Account does not exist", null) }
+                } else { completionHandler("Account does not exist ", null) }
+            }
+            override fun onCancelled(error: DatabaseError) {
+                completionHandler(error.message, null)
+            }
+        })
+    }
 }
