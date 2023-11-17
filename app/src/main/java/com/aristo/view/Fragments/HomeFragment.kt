@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager2.widget.ViewPager2
+import com.aristo.Manager.SharedPreferenceManager
 import com.aristo.model.Category
 import com.aristo.databinding.FragmentHomeBinding
 import com.aristo.model.NewCategory
@@ -39,6 +40,7 @@ class HomeFragment : Fragment(), HomeCategoryListAdapter.HomeMainCategoryListene
     private var selectedCategory : Category? = null
     private var isFound = false
     private var isFoundAll = false
+    private var userId = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -69,7 +71,7 @@ class HomeFragment : Fragment(), HomeCategoryListAdapter.HomeMainCategoryListene
 //        }
 //        else{
             fetchDatas()
-            setDeviceToken()
+
 //        }
 
     }
@@ -94,7 +96,7 @@ class HomeFragment : Fragment(), HomeCategoryListAdapter.HomeMainCategoryListene
         val databaseReference = FirebaseDatabase.getInstance().getReference("Tokens")
 
         // Check if the key is not null before adding the data
-        databaseReference.child(token).child("token").setValue(token)
+        databaseReference.child(userId).child("token").setValue(token)
             .addOnSuccessListener {
                 // Data successfully added to the database
                 Log.d("Firebase", "Token added successfully")
@@ -108,6 +110,9 @@ class HomeFragment : Fragment(), HomeCategoryListAdapter.HomeMainCategoryListene
     }
 
     private fun fetchDatas(){
+
+        getUser()
+
         firebaseApi.getMainCategoryData { isSuccess, data ->
             if (isSuccess) {
                 newCategoryList.clear()
@@ -162,6 +167,7 @@ class HomeFragment : Fragment(), HomeCategoryListAdapter.HomeMainCategoryListene
             }
             binding.progressBarNewItem.visibility = View.GONE
         }
+
     }
 
     private fun setUpAdapters() {
@@ -253,6 +259,24 @@ class HomeFragment : Fragment(), HomeCategoryListAdapter.HomeMainCategoryListene
 
         for (subCategory in rootCategory.subCategories.values) {
             findAllNewCategories(subCategory, newCategory)
+        }
+    }
+
+    private fun getUser(){
+        SharedPreferenceManager.initialize(requireContext())
+        val phone = SharedPreferenceManager.getData("UserLogIn")
+
+        phone?.let {
+            firebaseApi.getUser(phone) { message, user ->
+                if (user != null) {
+                    userId = user.userId.toString()
+
+                    setDeviceToken()
+
+                } else {
+                    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 
