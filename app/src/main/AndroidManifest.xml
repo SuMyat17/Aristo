@@ -53,5 +53,8 @@
             android:name=".view.ProductDetailActivity"
             android:exported="false" />
     </application>
+    <queries>
+        <package android:name="com.viber.voip" />
+    </queries>
 
 </manifest>

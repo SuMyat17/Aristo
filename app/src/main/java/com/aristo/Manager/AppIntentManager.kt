@@ -6,9 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Paint
 import android.net.Uri
-import android.os.Handler
 import android.widget.TextView
-import androidx.core.content.ContextCompat.startActivity
 
 
 fun openDialApp(activity : Activity, phNo : String){
