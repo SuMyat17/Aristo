@@ -31,6 +31,11 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
+        else{
+            if (firebaseApi.auth.currentUser == null) {
+                firebaseApi.signInUser()
+            }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

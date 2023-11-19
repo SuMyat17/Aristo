@@ -70,23 +70,34 @@ class FirebaseApi {
         })
     }
 
-    fun signInUser(completionHandler: (Boolean) -> Unit){
+//    fun signInUser(completionHandler: (Boolean) -> Unit){
+//
+//        if (auth.currentUser == null){
+//
+//            var email = "tunlinaung.tla7@gmail.com"
+//            var password = "Superst@r7"
+//
+//            auth.signInWithEmailAndPassword(email,password).addOnCompleteListener { task ->
+//
+//                if (task.isSuccessful){
+//                    completionHandler(true)
+//                }
+//                else{
+//                    //Toast.makeText(context,"${task.exception!!.localizedMessage.toString()}",Toast.LENGTH_LONG).show()
+//                    completionHandler(false)
+//                }
+//            }
+//        }
+//    }
+
+    fun signInUser(){
 
         if (auth.currentUser == null){
 
             var email = "tunlinaung.tla7@gmail.com"
             var password = "Superst@r7"
 
-            auth.signInWithEmailAndPassword(email,password).addOnCompleteListener { task ->
-
-                if (task.isSuccessful){
-                    completionHandler(true)
-                }
-                else{
-                    //Toast.makeText(context,"${task.exception!!.localizedMessage.toString()}",Toast.LENGTH_LONG).show()
-                    completionHandler(false)
-                }
-            }
+            auth.signInWithEmailAndPassword(email,password)
         }
     }
 
