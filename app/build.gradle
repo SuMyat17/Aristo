@@ -10,6 +10,15 @@ android {
     namespace 'com.aristo'
     compileSdk 34
 
+//    signingConfigs {
+//        release {
+//            storeFile file("key-store-file-path")
+//            storePassword "key-store-password "
+//            keyAlias "key-alias"
+//            keyPassword "key-password"
+//        }
+//    }
+
     defaultConfig {
         applicationId "com.aristo"
         minSdk 24
@@ -17,10 +26,15 @@ android {
         versionCode 2
         versionName "1.1"
 
+        signingConfig signingConfigs.debug
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'

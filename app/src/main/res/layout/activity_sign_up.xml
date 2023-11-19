@@ -93,7 +93,8 @@
         android:textStyle="bold"
         android:hint="Password"
         android:paddingStart="@dimen/margin_medium_2"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:inputType="textPassword"/>
 
     <EditText
         android:id="@+id/etConfirmPassword"
@@ -105,7 +106,8 @@
         android:textStyle="bold"
         android:hint="Confirm Password"
         android:paddingStart="@dimen/margin_medium_2"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:inputType="textPassword"/>
 
     <Button
         android:id="@+id/btnSignUp"
