@@ -61,18 +61,18 @@ class HomeFragment : Fragment(), HomeCategoryListAdapter.HomeMainCategoryListene
             startActivity(intent)
         }
 
-//        if (firebaseApi.auth.currentUser == null){
-//            firebaseApi.signInUser {success ->
-//                if (success){
-//                    fetchDatas()
-//                    setDeviceToken()
-//                }
-//            }
-//        }
-//        else{
+        if (firebaseApi.auth.currentUser == null){
+            firebaseApi.signInUser {success ->
+                if (success){
+                    fetchDatas()
+                    setDeviceToken()
+                }
+            }
+        }
+        else{
             fetchDatas()
 
-//        }
+        }
 
     }
 
