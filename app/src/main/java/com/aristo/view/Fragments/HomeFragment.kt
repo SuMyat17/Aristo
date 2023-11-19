@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager2.widget.ViewPager2
+import com.aristo.BuildConfig
 import com.aristo.Manager.SharedPreferenceManager
 import com.aristo.model.Category
 import com.aristo.databinding.FragmentHomeBinding
@@ -61,19 +62,22 @@ class HomeFragment : Fragment(), HomeCategoryListAdapter.HomeMainCategoryListene
             startActivity(intent)
         }
 
-        if (firebaseApi.auth.currentUser == null){
-            firebaseApi.signInUser {success ->
-                if (success){
-                    fetchDatas()
-                    setDeviceToken()
+        if (BuildConfig.BUILD_TYPE == "release") {
+            if (firebaseApi.auth.currentUser == null) {
+                firebaseApi.signInUser { success ->
+                    if (success) {
+                        fetchDatas()
+                        setDeviceToken()
+                    }
                 }
+            } else {
+                fetchDatas()
             }
         }
-        else{
+        else
+        {
             fetchDatas()
-
         }
-
     }
 
     private fun setDeviceToken(){
