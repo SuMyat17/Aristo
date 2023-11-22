@@ -277,7 +277,7 @@ class HomeFragment : Fragment(), HomeCategoryListAdapter.HomeMainCategoryListene
             firebaseApi.getUser(phone) { message, user ->
                 if (user != null) {
                     userId = user.userId.toString()
-
+                    SharedPreferenceManager.setData("userId", userId)
                     setDeviceToken()
 
                 } else {

@@ -32,6 +32,7 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
 
     private var firebaseApi = FirebaseApi()
     private var isFound = false
+    private var userId = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,6 +51,8 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
         if (CartListDataHolder.instance.cartList.isNotEmpty()) {
             cartList = CartListDataHolder.instance.cartList
         }
+
+        userId = SharedPreferenceManager.getData("userId").toString()
 
         firebaseApi.getMainCategoryData{ isSuccess, data ->
             if (isSuccess) {
@@ -116,10 +119,11 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
         val btnCancel : Button = customView.findViewById(R.id.btnCancel)
         val btnConfirm : Button = customView.findViewById(R.id.btnConfirm)
         val gridLayout: GridLayout = customView.findViewById(R.id.gridLayout)
+        val tvPointsToUse : TextView = customView.findViewById(R.id.tvPontsToUse)
 
         val dialog = builder.create()
 
-        var message = "Order List\n===========\n"
+        var message = "Order List (Customer id: ${userId} \n===========\n"
         cartList.forEach {
 
             message += "${it.product?.title}  (${it.quantity}) ${it.product?.type} \n"
@@ -149,6 +153,15 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
             gridLayout.addView(itemNameTextView)
             gridLayout.addView(itemQuantityTextView)
 
+            if (binding.etPointsToUse.text.isNotEmpty()) {
+                tvPointsToUse.text = "*points ${binding.etPointsToUse.text} အသုံးပြုမည်"
+            }
+            else{
+                tvPointsToUse.setText("")
+            }
+
+
+
         }
 
         btnCancel.setOnClickListener {
@@ -156,11 +169,14 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
         }
 
         btnConfirm.setOnClickListener {
+
+            message += "*points ${binding.etPointsToUse.text} အသုံးပြုမည်"
             sendMessageToViber(requireActivity(), message)
 
             CartListDataHolder.instance.cartList.clear()
             cartList.clear()
             binding.tvTotalQuantity.text = "0"
+            binding.etPointsToUse.setText("")
             mCartAdapter.setNewData(cartList)
             val mainActivity = activity as MainActivity
             mainActivity.showBadge()
