@@ -13,6 +13,8 @@ import com.aristo.R
 import com.aristo.utils.processColorCode
 import com.aristo.model.Category
 import com.aristo.databinding.ViewHolderNewItemsBinding
+import com.aristo.model.NewProduct
+import com.aristo.network.FirebaseApi
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -22,10 +24,11 @@ import com.bumptech.glide.request.RequestOptions
 class NewItemsAdapter(private var listener: NewItemListener) : RecyclerView.Adapter<NewItemsAdapter.NewItemViewHolder>() {
 
     private var dataList: List<Category> = listOf()
+    private var newProductList: List<NewProduct> = listOf()
 
     class NewItemViewHolder(private val binding: ViewHolderNewItemsBinding, val context: Context, var listener: NewItemListener) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(category: Category) {
+        fun bind(category: Category, newProductImage: String?) {
             itemView.setOnClickListener {
                 listener.onTapNewItem(category)
             }
@@ -34,7 +37,7 @@ class NewItemsAdapter(private var listener: NewItemListener) : RecyclerView.Adap
 
             Log.d("bind Datas", "bind Datas: ${category.imageURL}")
 
-            if (category.colorCode != "" && category.colorCode.count() in 7..10){
+            if (category.colorCode != "" && category.colorCode.count() in 7..10 && newProductImage == null){
                 binding.progressBar.visibility = View.GONE
                 binding.ivFullImage.foreground = ColorDrawable(Color.parseColor(processColorCode(category.colorCode)))
                 binding.ivSmallImage.foreground = ColorDrawable(Color.parseColor(processColorCode(category.colorCode)))
@@ -43,8 +46,11 @@ class NewItemsAdapter(private var listener: NewItemListener) : RecyclerView.Adap
                 binding.progressBar.visibility = View.VISIBLE
                 binding.ivFullImage.foreground = null
                 binding.ivSmallImage.foreground = null
-                Glide.with(context).load(category.imageURL).into(binding.ivFullImage)
-                Glide.with(context).load(category.imageURL).apply(RequestOptions.placeholderOf(R.drawable.ic_placeholder))
+
+                val image = if (newProductImage?.isNotEmpty() == true) newProductImage else category.imageURL
+
+                Glide.with(context).load(image).into(binding.ivFullImage)
+                Glide.with(context).load(image).apply(RequestOptions.placeholderOf(R.drawable.ic_placeholder))
                     .listener(object : RequestListener<Drawable> {
                         override fun onLoadFailed(e: GlideException?, model: Any?, target: com.bumptech.glide.request.target.Target<Drawable>?, isFirstResource: Boolean): Boolean {
                             binding.progressBar.visibility = View.GONE
@@ -58,6 +64,7 @@ class NewItemsAdapter(private var listener: NewItemListener) : RecyclerView.Adap
                         }
                     })
                     .into(binding.ivSmallImage)
+
             }
         }
     }
@@ -68,8 +75,16 @@ class NewItemsAdapter(private var listener: NewItemListener) : RecyclerView.Adap
     }
 
     override fun onBindViewHolder(holder: NewItemViewHolder, position: Int) {
-        if (dataList.isNotEmpty()) {
-            holder.bind(dataList[position])
+        if (dataList.isNotEmpty() && newProductList.isNotEmpty()) {
+
+            var newProductImage: String? = null
+
+            newProductList.forEach {
+                if (dataList[position].id == it.id) {
+                    newProductImage = it.productImage
+                }
+            }
+            holder.bind(dataList[position], newProductImage)
         }
     }
 
@@ -77,8 +92,9 @@ class NewItemsAdapter(private var listener: NewItemListener) : RecyclerView.Adap
         return dataList.size
     }
 
-    fun setNewData(categoryList: List<Category>) {
+    fun setNewData(categoryList: List<Category>, sortedList: List<NewProduct>) {
         dataList = categoryList
+        newProductList = sortedList
         notifyDataSetChanged()
     }
 

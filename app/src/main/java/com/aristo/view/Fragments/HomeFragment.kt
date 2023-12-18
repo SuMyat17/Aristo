@@ -11,11 +11,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager2.widget.ViewPager2
-import com.aristo.BuildConfig
 import com.aristo.Manager.SharedPreferenceManager
 import com.aristo.model.Category
 import com.aristo.databinding.FragmentHomeBinding
-import com.aristo.model.NewCategory
+import com.aristo.model.NewProduct
 import com.aristo.network.FirebaseApi
 import com.aristo.view.ChildCategoriesActivity
 import com.aristo.view.MainCategoriesActivity
@@ -34,7 +33,7 @@ class HomeFragment : Fragment(), HomeCategoryListAdapter.HomeMainCategoryListene
     private lateinit var mCategoryAdapter: HomeCategoryListAdapter
 
     private var categoryList: List<Category> = listOf()
-    private var sortedList: List<NewCategory> = arrayListOf()
+    private var sortedList: List<NewProduct> = arrayListOf()
     private var newCategoryList: ArrayList<Category> = arrayListOf()
 
     private var firebaseApi = FirebaseApi()
@@ -60,7 +59,7 @@ class HomeFragment : Fragment(), HomeCategoryListAdapter.HomeMainCategoryListene
         binding.btnSeeMore.setOnClickListener {
             val intent = Intent(activity, MainCategoriesActivity::class.java)
             startActivity(intent)
-        }
+        } 
 
         fetchDatas()
         setDeviceToken()
@@ -138,9 +137,9 @@ class HomeFragment : Fragment(), HomeCategoryListAdapter.HomeMainCategoryListene
             binding.progressBarMain.visibility = View.GONE
         }
 
-        firebaseApi.getNewProducts { isSucccess, data ->
+        firebaseApi.getNewProducts { isSuccess, data ->
 
-            if (isSucccess) {
+            if (isSuccess) {
                 sortedList = arrayListOf()
                 newCategoryList.clear()
                 if (data?.isNotEmpty() == true) {
@@ -155,7 +154,7 @@ class HomeFragment : Fragment(), HomeCategoryListAdapter.HomeMainCategoryListene
                             }
                         }
                     }
-                    mNewItemsAdapter.setNewData(newCategoryList)
+                    mNewItemsAdapter.setNewData(newCategoryList, sortedList)
 
 
                     binding.flNewItem.visibility = View.VISIBLE
@@ -258,14 +257,14 @@ class HomeFragment : Fragment(), HomeCategoryListAdapter.HomeMainCategoryListene
     }
 
 
-    private fun findAllNewCategories(rootCategory: Category, newCategory: NewCategory?) {
-        if (rootCategory.id == newCategory?.id) {
+    private fun findAllNewCategories(rootCategory: Category, newProduct: NewProduct?) {
+        if (rootCategory.id == newProduct?.id) {
             isFoundAll = true
             newCategoryList.add(rootCategory)
         }
 
         for (subCategory in rootCategory.subCategories.values) {
-            findAllNewCategories(subCategory, newCategory)
+            findAllNewCategories(subCategory, newProduct)
         }
     }
 
@@ -278,6 +277,7 @@ class HomeFragment : Fragment(), HomeCategoryListAdapter.HomeMainCategoryListene
                 if (user != null) {
                     userId = user.userId.toString()
                     SharedPreferenceManager.setData("userId", userId)
+                    SharedPreferenceManager.setData("points", user.point.toString())
                     setDeviceToken()
 
                 } else {

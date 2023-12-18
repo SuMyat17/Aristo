@@ -2,6 +2,8 @@ package com.aristo.view.Fragments
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +12,7 @@ import android.widget.Button
 import android.widget.GridLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aristo.Manager.*
@@ -33,6 +36,7 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
     private var firebaseApi = FirebaseApi()
     private var isFound = false
     private var userId = ""
+    private var point: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,14 +50,21 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
         super.onViewCreated(view, savedInstanceState)
         binding.progressBar.visibility = View.VISIBLE
 
+        requestNetworkCall()
         setUpAdapters()
+        setUpListener()
 
         if (CartListDataHolder.instance.cartList.isNotEmpty()) {
             cartList = CartListDataHolder.instance.cartList
         }
 
         userId = SharedPreferenceManager.getData("userId").toString()
+        point = SharedPreferenceManager.getData("points").toString()
+        binding.tvTotalPoints.text = "* လက်ကျန် ($point) points"
 
+    }
+
+    private fun requestNetworkCall() {
         firebaseApi.getMainCategoryData{ isSuccess, data ->
             if (isSuccess) {
                 cartList.forEach outerLoop@{ cart ->
@@ -69,21 +80,12 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
                 CartListDataHolder.instance.cartList = filteredCartList
                 mCartAdapter.setNewData(filteredCartList)
                 if (CartListDataHolder.instance.cartList.isNotEmpty()) {
-                    binding.tvTotalQuantity.text = CartListDataHolder.instance.cartList.size.toString()
+//                    binding.tvTotalQuantity.text = CartListDataHolder.instance.cartList.size.toString()
                 }
             } else {
                 Toast.makeText(requireContext(), "Can't retrieve data.", Toast.LENGTH_LONG).show()
             }
             binding.progressBar.visibility = View.GONE
-        }
-
-        binding.btnOrder.setOnClickListener {
-
-            if (cartList.isNotEmpty()) {
-                showOrderConfirmAlert()
-            } else {
-                Toast.makeText(requireContext(), "Please add some products", Toast.LENGTH_LONG).show()
-            }
         }
     }
 
@@ -107,12 +109,37 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
         binding.rvCart.adapter = mCartAdapter
         binding.rvCart.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
     }
+    
+    private fun setUpListener() {
+        binding.btnOrder.setOnClickListener {
+
+            if (cartList.isNotEmpty()) {
+                showOrderConfirmAlert()
+            } else {
+                Toast.makeText(requireContext(), "Please add some products", Toast.LENGTH_LONG).show()
+            }
+        }
+
+        binding.etPointsToUse.addTextChangedListener (object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                point?.let{
+                    if (!s.isNullOrEmpty() && s.toString().toInt() > it.toInt()) {
+                        binding.etPointsToUse.setText(it)
+                        binding.etPointsToUse.setSelection(binding.etPointsToUse.text.length)
+                    }
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+    }
 
 
-    fun showOrderConfirmAlert() {
+    private fun showOrderConfirmAlert() {
         val builder = AlertDialog.Builder(requireContext())
-        val customView = LayoutInflater.from(requireContext())
-            .inflate(R.layout.order_confirm_alert,null)
+        val customView = LayoutInflater.from(requireContext()).inflate(R.layout.order_confirm_alert,null)
         builder.setView(customView)
         builder.setCancelable(false)
 
@@ -123,7 +150,7 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
 
         val dialog = builder.create()
 
-        var message = "Order List (Customer id: ${userId} \n===========\n"
+        var message = "Order List (Customer id: $userId \n===========\n"
         cartList.forEach {
 
             message += "${it.product?.title}  (${it.quantity}) ${it.product?.type} \n"
@@ -160,8 +187,6 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
                 tvPointsToUse.setText("")
             }
 
-
-
         }
 
         btnCancel.setOnClickListener {
@@ -175,7 +200,7 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
 
             CartListDataHolder.instance.cartList.clear()
             cartList.clear()
-            binding.tvTotalQuantity.text = "0"
+//            binding.tvTotalQuantity.text = "0"
             binding.etPointsToUse.setText("")
             mCartAdapter.setNewData(cartList)
             val mainActivity = activity as MainActivity
@@ -211,7 +236,7 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
             CartListDataHolder.instance.cartList = cartList
             mCartAdapter.setNewData(cartList)
 
-            binding.tvTotalQuantity.text = CartListDataHolder.instance.cartList.size.toString()
+//            binding.tvTotalQuantity.text = CartListDataHolder.instance.cartList.size.toString()
 
             val mainActivity = activity as MainActivity
             mainActivity.showBadge()
@@ -224,7 +249,6 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
 
         dialog.show()
     }
-
 
     override fun onTapDelete(cart: Cart) {
         deleteCartDialog(cart)
@@ -240,13 +264,13 @@ class CartFragment : Fragment(), CartAdapter.CartItemListener {
 
     override fun onTapAdd() {
         if (CartListDataHolder.instance.cartList.isNotEmpty()) {
-            binding.tvTotalQuantity.text = CartListDataHolder.instance.cartList.size.toString()
+//            binding.tvTotalQuantity.text = CartListDataHolder.instance.cartList.size.toString()
         }
     }
 
     override fun onTapMinus() {
         if (CartListDataHolder.instance.cartList.isNotEmpty()) {
-            binding.tvTotalQuantity.text = CartListDataHolder.instance.cartList.size.toString()
+//            binding.tvTotalQuantity.text = CartListDataHolder.instance.cartList.size.toString()
 
         }
     }

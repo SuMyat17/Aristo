@@ -46,14 +46,17 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_medium_3">
+            android:layout_marginStart="@dimen/margin_medium_3"
+            android:layout_marginEnd="@dimen/margin_medium_3"
+            android:layout_marginTop="@dimen/margin_card_medium"
+            android:layout_marginBottom="@dimen/margin_medium">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="points အသုံးပြုမည်"
                 android:textSize="16sp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/margin_card_medium_2"
                 android:textStyle="bold"
                 android:textColor="@color/black" />
 
@@ -70,30 +73,15 @@
 
         </RelativeLayout>
 
-        <RelativeLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tvTotalPoints"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_medium_3">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="စုစုပေါင်းမှာယူလိုသည့်အမျိုးအစားများ"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@color/black" />
-
-        <TextView
-            android:id="@+id/tvTotalQuantity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:text="0"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@color/black" />
-
-    </RelativeLayout>
+        android:text="* လက်ကျန် (100) points"
+        android:layout_marginStart="@dimen/margin_medium_3"
+        android:layout_marginBottom="@dimen/margin_medium_3"
+        android:textStyle="bold"
+        android:textColor="@color/red" />
 
         <View
             android:layout_width="match_parent"

@@ -3,22 +3,18 @@ package com.aristo.view
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.aristo.R
 import com.aristo.data.CartListDataHolder
 import com.aristo.model.Category
 import com.aristo.view.adapters.ChildCategoryListAdapter
 import com.aristo.view.adapters.MainCategoryListAdapter
 import com.aristo.databinding.ActivityMainCategoriesBinding
-import com.aristo.model.NewCategory
+import com.aristo.model.NewProduct
 import com.aristo.network.FirebaseApi
 import com.aristo.viewModel.CategoriesViewModel
-import com.google.android.material.bottomnavigation.BottomNavigationItemView
 
 class MainCategoriesActivity : AppCompatActivity(), MainCategoryListAdapter.MainCategoriesRecyclerViewListener {
 
@@ -31,7 +27,7 @@ class MainCategoriesActivity : AppCompatActivity(), MainCategoryListAdapter.Main
     private lateinit var mSubCategoryAdapter: ChildCategoryListAdapter
 
     private var categoryList: List<Category> = listOf()
-    private var newItemsList: List<NewCategory> = listOf()
+    private var newItemsList: List<NewProduct> = listOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
